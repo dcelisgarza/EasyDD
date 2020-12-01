@@ -17,6 +17,7 @@ Dislocation plasticity simulations using explicitly calculated interactions.
 
 ## Folder structure
 
+- THIS IS GOING TO CHANGE
 - input: contains inputs,
 - output: contains outputs,
 - scr: source files,
