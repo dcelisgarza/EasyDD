@@ -56,6 +56,11 @@ function sigma = hatStress(uhat, nc, x, D, mx, mz, w, h, d, x0)
     ds2dy = 1 / b;
     ds3dz = 1 / c;
 
+    B = zeros(6, 24);
+    dNds1 = zeros(8, 1);
+    dNds2 = zeros(8, 1);
+    dNds3 = zeros(8, 1);
+
     pm1 = [-1 1 1 -1 -1 1 1 -1];
     pm2 = [1 1 1 1 -1 -1 -1 -1];
     pm3 = [-1 -1 1 1 -1 -1 1 1];
@@ -63,11 +68,48 @@ function sigma = hatStress(uhat, nc, x, D, mx, mz, w, h, d, x0)
     % dNa/ds1 = 1/8* pm1(a)*(1+pm2(a)*s2)(1+pm3(a)*s3)
     % dNa/dx = (dNa/ds1)(ds1/dx) where ds1/dx = 1/a
     % dN1/dx = 1/a(dNa/ds1) = -b*c*(1+s2)(1-s3)/(abc)
+    % The explicit derivatives as found in finiteElement3D work, so do the
+    % pms found there.
+    % I think the signs used here are wrong. They do not give the same
+    % explicit expressions as doing the explicit  derivatives of the shape
+    % functions. I don't know why they are used here. The correct ones are
+    % these:
+%     pm1 = [-1 1 1 -1 -1 1 1 -1];
+%     pm2 = [-1 -1 1 1 -1 -1 1 1];
+%     pm3 = [-1 -1 -1 -1 1 1 1 1];
+    % This function uses pm2 for pm3, and -pm3 for pm2, i don't know why.
+    % dNds1(1) = -1/8 * (1 - s2) * (1 - s3);
+    % dNds2(1) = -1/8 * (1 - s1) * (1 - s3);
+    % dNds3(1) = -1/8 * (1 - s1) * (1 - s2);
 
-    B = zeros(6, 24);
-    dNds1 = zeros(8, 1);
-    dNds2 = zeros(8, 1);
-    dNds3 = zeros(8, 1);
+    % dNds1(2) = 1/8 * (1 - s2) * (1 - s3);
+    % dNds2(2) = -1/8 * (1 + s1) * (1 - s3);
+    % dNds3(2) = -1/8 * (1 + s1) * (1 - s2);
+
+    % dNds1(3) = 1/8 * (1 + s2) * (1 - s3);
+    % dNds2(3) = 1/8 * (1 + s1) * (1 - s3);
+    % dNds3(3) = -1/8 * (1 + s1) * (1 + s2);
+
+    % dNds1(4) = -1/8 * (1 + s2) * (1 - s3);
+    % dNds2(4) = 1/8 * (1 - s1) * (1 - s3);
+    % dNds3(4) = -1/8 * (1 - s1) * (1 + s2);
+
+    % dNds1(5) = -1/8 * (1 - s2) * (1 + s3);
+    % dNds2(5) = -1/8 * (1 - s1) * (1 + s3);
+    % dNds3(5) = 1/8 * (1 - s1) * (1 - s2);
+
+    % dNds1(6) = 1/8 * (1 - s2) * (1 + s3);
+    % dNds2(6) = -1/8 * (1 + s1) * (1 + s3);
+    % dNds3(6) = 1/8 * (1 + s1) * (1 - s2);
+
+    % dNds1(7) = 1/8 * (1 + s2) * (1 + s3);
+    % dNds2(7) = 1/8 * (1 + s1) * (1 + s3);
+    % dNds3(7) = 1/8 * (1 + s1) * (1 + s2);
+
+    % dNds1(8) = -1/8 * (1 + s2) * (1 + s3);
+    % dNds2(8) = 1/8 * (1 - s1) * (1 + s3);
+    % dNds3(8) = 1/8 * (1 - s1) * (1 + s2);
+    %%
 
     for a = 1:8
         dNds1(a) = 1/8 * pm1(a) * (1 + pm2(a) * s2) * (1 + pm3(a) * s3);

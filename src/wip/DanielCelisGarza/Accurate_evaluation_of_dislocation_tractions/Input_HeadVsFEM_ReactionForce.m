@@ -79,7 +79,7 @@ xcoord = dx / 32; % eigth of the domain.
 %%
 ycoord = dy / 2; % middle of the domain
 % ycoord = ycoord(2)/2; % middle of first element
-simName = strcat(simName, 'corner');
+% simName = strcat(simName, 'corner');
 x = linspace(xcoord, xcoord, len);
 y = linspace(ycoord, ycoord, len);
 z = linspace(0, dz, len);
@@ -191,12 +191,12 @@ loading = @staticSim;
 CUDA_flag = false;
 para_scheme = 1;
 
-calculateTractions = @calculateNumericTractions;
-simName = strcat('numeric_', simName);
-% calculateTractions = @calculateAnalyticTractions;
-% simName = strcat('analytic_', simName);
-plotFreq = 1;
-saveFreq = 1e9;%4*plotFreq;
+% calculateTractions = @calculateNumericTractions;
+% simName = strcat('numeric_', simName);
+calculateTractions = @calculateAnalyticTractions;
+simName = strcat('analytic_', simName);
+plotFreq = 10;
+saveFreq = 2;%4*plotFreq;
 
 lmin = 10 * a;
 lmax = 2.5*lmin;

@@ -190,12 +190,15 @@ function [vertices, B, xnodes, mno, nc, n, D, kg, w, h, d, mx, my, mz, mel] = fi
         ns(q, 1, 1) = -1/8 * (1 - z(q, 2)) * (1 - z(q, 3));
         ns(q, 1, 2) = -1/8 * (1 - z(q, 1)) * (1 - z(q, 3));
         ns(q, 1, 3) = -1/8 * (1 - z(q, 1)) * (1 - z(q, 2));
+        
         ns(q, 2, 1) = 1/8 * (1 - z(q, 2)) * (1 - z(q, 3));
         ns(q, 2, 2) = -1/8 * (1 + z(q, 1)) * (1 - z(q, 3));
         ns(q, 2, 3) = -1/8 * (1 + z(q, 1)) * (1 - z(q, 2));
+        
         ns(q, 3, 1) = 1/8 * (1 + z(q, 2)) * (1 - z(q, 3));
         ns(q, 3, 2) = 1/8 * (1 + z(q, 1)) * (1 - z(q, 3));
         ns(q, 3, 3) = -1/8 * (1 + z(q, 1)) * (1 + z(q, 2));
+        
         ns(q, 4, 1) = -1/8 * (1 + z(q, 2)) * (1 - z(q, 3));
         ns(q, 4, 2) = 1/8 * (1 - z(q, 1)) * (1 - z(q, 3));
         ns(q, 4, 3) = -1/8 * (1 - z(q, 1)) * (1 + z(q, 2));
@@ -203,12 +206,15 @@ function [vertices, B, xnodes, mno, nc, n, D, kg, w, h, d, mx, my, mz, mel] = fi
         ns(q, 5, 1) = -1/8 * (1 - z(q, 2)) * (1 + z(q, 3));
         ns(q, 5, 2) = -1/8 * (1 - z(q, 1)) * (1 + z(q, 3));
         ns(q, 5, 3) = 1/8 * (1 - z(q, 1)) * (1 - z(q, 2));
+        
         ns(q, 6, 1) = 1/8 * (1 - z(q, 2)) * (1 + z(q, 3));
         ns(q, 6, 2) = -1/8 * (1 + z(q, 1)) * (1 + z(q, 3));
         ns(q, 6, 3) = 1/8 * (1 + z(q, 1)) * (1 - z(q, 2));
+        
         ns(q, 7, 1) = 1/8 * (1 + z(q, 2)) * (1 + z(q, 3));
         ns(q, 7, 2) = 1/8 * (1 + z(q, 1)) * (1 + z(q, 3));
         ns(q, 7, 3) = 1/8 * (1 + z(q, 1)) * (1 + z(q, 2));
+        
         ns(q, 8, 1) = -1/8 * (1 + z(q, 2)) * (1 + z(q, 3));
         ns(q, 8, 2) = 1/8 * (1 - z(q, 1)) * (1 + z(q, 3));
         ns(q, 8, 3) = 1/8 * (1 - z(q, 1)) * (1 + z(q, 2));
@@ -217,7 +223,14 @@ function [vertices, B, xnodes, mno, nc, n, D, kg, w, h, d, mx, my, mz, mel] = fi
     pm1 = [-1 1 1 -1 -1 1 1 -1];
     pm2 = [-1 -1 1 1 -1 -1 1 1];
     pm3 = [-1 -1 -1 -1 1 1 1 1];
-
+%%
+% These signs were used in hatStress, they're wrong, they error out with 
+% the explicit equations. This is why we need unit tests!
+% I don't know why these are used there.
+%     pm1 = [-1 1 1 -1 -1 1 1 -1];
+%     pm2 = [1 1 1 1 -1 -1 -1 -1];
+%     pm3 = [-1 -1 1 1 -1 -1 1 1];
+%%
     % pm1 =[-1  1  1 -1 -1  1  1 -1]
     % pm2 =[-1 -1  1  1 -1 -1  1  1]
     % pm3 =[-1 -1 -1 -1  1  1  1  1]
