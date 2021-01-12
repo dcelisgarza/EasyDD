@@ -21,23 +21,6 @@ function sigma = hatStress(uhat, nc, x, D, mx, mz, w, h, d, x0)
         return
     end
 
-    % 4. ----- .3
-    %  �\       �\
-    %  � \      � \
-    % 1. -\---- .2 \
-    %   \  \     \  \
-    %    \ 8. ----\- .7
-    %     \ �      \ �
-    %      \�       \�
-    %      5. ----- .6
-
-    %  s2   s3
-    %    \  ^
-    %     \ �
-    %      \�
-    %       . -----> s1
-    % redefine local corordinate system (s1,s2,s3) to have same orientation as
-    % the global system (x,y,z) this should save calcualting Jij and inv(J)
     xc = zeros(3, 1);
 
     for i = 1:3
@@ -61,6 +44,22 @@ function sigma = hatStress(uhat, nc, x, D, mx, mz, w, h, d, x0)
     dNds2 = zeros(8, 1);
     dNds3 = zeros(8, 1);
 
+    % 4. ----- .3
+    %  |\       |\
+    %  | \      | \
+    % 1. -\---- .2 \
+    %   \  \     \  \
+    %    \ 8. ----\- .7
+    %     \ |      \ |
+    %      \|       \|
+    %      5. ----- .6
+    %  s2   s3
+    %    \  ^
+    %     \ |
+    %      \|
+    %       . -----> s1
+    % redefine local corordinate system (s1,s2,s3) to have same orientation as
+    % the global system (x,y,z) this should save calcualting Jij and inv(J). These shape function derivatives are built using the above geometry. They differ from the ones in `finiteElement3D.m` in that the ones found there are for a different FEM construction, i.e. building the mesh in the xy-plane and moving up the z-axis. The mesh builder in `finiteElement3D.m` builds the mesh in xz-planes travelling up the y-axis and so needs to define a Jacobian to transform those coordinates into those of the shape functions found there. Since these shape functions are custom for the geometry used, we don't need a Jacobian, we can simply use them to build B.
     pm1 = [-1 1 1 -1 -1 1 1 -1];
     pm2 = [1 1 1 1 -1 -1 -1 -1];
     pm3 = [-1 -1 1 1 -1 -1 1 1];
@@ -68,48 +67,6 @@ function sigma = hatStress(uhat, nc, x, D, mx, mz, w, h, d, x0)
     % dNa/ds1 = 1/8* pm1(a)*(1+pm2(a)*s2)(1+pm3(a)*s3)
     % dNa/dx = (dNa/ds1)(ds1/dx) where ds1/dx = 1/a
     % dN1/dx = 1/a(dNa/ds1) = -b*c*(1+s2)(1-s3)/(abc)
-    % The explicit derivatives as found in finiteElement3D work, so do the
-    % pms found there.
-    % I think the signs used here are wrong. They do not give the same
-    % explicit expressions as doing the explicit  derivatives of the shape
-    % functions. I don't know why they are used here. The correct ones are
-    % these:
-%     pm1 = [-1 1 1 -1 -1 1 1 -1];
-%     pm2 = [-1 -1 1 1 -1 -1 1 1];
-%     pm3 = [-1 -1 -1 -1 1 1 1 1];
-    % This function uses pm2 for pm3, and -pm3 for pm2, i don't know why.
-    % dNds1(1) = -1/8 * (1 - s2) * (1 - s3);
-    % dNds2(1) = -1/8 * (1 - s1) * (1 - s3);
-    % dNds3(1) = -1/8 * (1 - s1) * (1 - s2);
-
-    % dNds1(2) = 1/8 * (1 - s2) * (1 - s3);
-    % dNds2(2) = -1/8 * (1 + s1) * (1 - s3);
-    % dNds3(2) = -1/8 * (1 + s1) * (1 - s2);
-
-    % dNds1(3) = 1/8 * (1 + s2) * (1 - s3);
-    % dNds2(3) = 1/8 * (1 + s1) * (1 - s3);
-    % dNds3(3) = -1/8 * (1 + s1) * (1 + s2);
-
-    % dNds1(4) = -1/8 * (1 + s2) * (1 - s3);
-    % dNds2(4) = 1/8 * (1 - s1) * (1 - s3);
-    % dNds3(4) = -1/8 * (1 - s1) * (1 + s2);
-
-    % dNds1(5) = -1/8 * (1 - s2) * (1 + s3);
-    % dNds2(5) = -1/8 * (1 - s1) * (1 + s3);
-    % dNds3(5) = 1/8 * (1 - s1) * (1 - s2);
-
-    % dNds1(6) = 1/8 * (1 - s2) * (1 + s3);
-    % dNds2(6) = -1/8 * (1 + s1) * (1 + s3);
-    % dNds3(6) = 1/8 * (1 + s1) * (1 - s2);
-
-    % dNds1(7) = 1/8 * (1 + s2) * (1 + s3);
-    % dNds2(7) = 1/8 * (1 + s1) * (1 + s3);
-    % dNds3(7) = 1/8 * (1 + s1) * (1 + s2);
-
-    % dNds1(8) = -1/8 * (1 + s2) * (1 + s3);
-    % dNds2(8) = 1/8 * (1 - s1) * (1 + s3);
-    % dNds3(8) = 1/8 * (1 - s1) * (1 + s2);
-    %%
 
     for a = 1:8
         dNds1(a) = 1/8 * pm1(a) * (1 + pm2(a) * s2) * (1 + pm3(a) * s3);

@@ -402,10 +402,33 @@ The resulting force vector is later used in \cref{eq:thatbc} as $\tilde{\vec{T}}
 \end{figure}
 The slices we took for our contour plots in \cref{s:results} taken from the midpoint of the $z$-axis to ensure minimal interferance from the $xy$-plane boundaries at $z=0,\, 1000\,b$.
 
-% TODO #48
-Finally, we ran a simple simulation where the differences between methods can be readily observed.
+In order to show the effects numerical tractions have on simulations, we ran a very simple simulation where the only difference was the traction calculation method. Finding a simple yet clear case of tractions producing catastrophically wrong behaviours can be difficult as large differences in image forces are relatively rare and other factors often dominate. Such factors include the core radius---which affects the dislocation line tension, which works to counteract the deformation of a dislocation line---as well as the mobility law and parameters used. However, we found a simple and realistic configuration that is close to the ones previously discussed. The system differences between the aforementioned comparisons and the simulation is described in \cref{t:simulation_params}. We use a mobility law developed in-house by B. Bromage \cite{bromage2018calculating} that corrects common issues found in other laws and the same rotation technique used in \cite{YU2018}. The dislocation was allowed to move under no external loads or displacements, $\mtx{T} = 0$ boundary conditions only on the $yz$-plane as above and $\mtx{U} = 0$ everywhere else.
+\begin{table}
+    \centering
+    \caption{Parameters for our simulation. Where $\mtx{R}$ is a rotation matrix such that the $\vec{x},\, \vec{y},\, \vec{z}$ basis vectors of our simulation correspond to the $\vec{b},\, \vec{n},\, \vec{l}$ crystallographic directions, i.e. $\mtx{R} \vec{x} = \vec{b}$. Everything else was kept just as the previous comparisons.}
+    \label{t:simulation_params}
+    \begin{tabular}{ll}
+        \toprule
+        Parameter          & Value                                           \\
+        \midrule
+        Crystal Structure  & BCC                                             \\
+        $\vec{b}$          & $[1 1 1]$                                       \\
+        $\vec{n}$          & $[1 \overline{1} 0]$                            \\
+        $\vec{l}$          & $[1 1 \overline{2}]$                            \\
+        $b$                & $\sqrt{3}/2$                                    \\
+        $a$                & $5~b$                                           \\
+        Grid Size          & $(20,\, 20,\, 20)$                              \\
+        Domain Size        & $(2000,\, 2000,\, 2000)~b$                      \\
+        Lattice size       & $3.18\times 10^{-4}~\mu\text{m}$                \\
+        $(x_{0},\, y_{0})$ & $(62.5,\, 1000)~b$                              \\
+        Min segment length & $50~b$                                          \\
+        Max segment length & $125~b$                                         \\
+        $\mtx{R}$          & $[\hat{\vec{b}}~ \hat{\vec{n}}~ \hat{\vec{l}}]$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
-\section{Results}\label{s:results}
+\section{Results and Discussion}\label{s:results}
 
 Isolated test cases were useful in order to gain insight into the differences between the numerical and analytical approaches. When the stress field on the surface element is highly symmetric, numerical integration works well; showing good convergence with increasing number of quadrature points.
 
@@ -762,45 +785,46 @@ From the line plots, it can be observed that both analytic and numeric tractions
 
 As expected, all solutions converge as the distance from the dislocation to surface increases because the magnitude of the real stresses increases in relation to that of the image stresses\textsuperscript{\footnote{The image stress components of \cref{eq:imageStressAnalyticEdge1,eq:imageStressAnalyticEdge2} are reflections about the line $x=0$ plus a corrective term that decays faster than the reflection term. In \cref{eq:imageStressAnalyticScrew}, the image term is a reflection about the line $x=0$. Therefore in both cases, as the dislocation moves away from the surface, the real stresses get relatively larger when compared to the image ones.}}.
 
-In order to show the effects numerical tractions have on simulations, we ran a very simple simulation where the only difference was the traction calculation method. A very simple yet illustrative qualitative example is to produce a scatter plot of the numerically calculated tractions vs analytically calculated ones at any time during any simulation. To obviate the problem even more, it helps making the axes proportional. What is observed in practically every case, is a positive correlation (though as we have seen in \cref{sf:sxxepar,sf:sxxAepar,sf:sxxNepar}, numerical tractions can produce sign inversions under specific conditions), but the axis that represents the numerically calculated tractions will be visually larger, as numeric tractions produce more extreme values. Statistically speaking, the closer the $R$-value is to 1 and the closer a linear fit is to $y=x$, the more accurate numerical tractions are for any given moment in a simulation. We have yet to find a single example where this happens. Furthermore, the chaotic nature of dislocation dynamics means that slight deviations will yield noticeably different results for the same starting conditions.
+Figure \cref{f:simulation} shows the dramatic differences between simulations where the only difference was the method for traction calculation. The figures shown are not at equivalent times as the simulations using numeric tractions ran indefenitely, as the line tension equilibrated with the image forces on the traction-free surface. The simulation using analytic tractions ended when the dislocation completely exited the surface as expected.
+\begin{figure}
+    \subfloat[Analytic tractions $t = 0$.]
+    {
+        { \includegraphics[width=0.3\linewidth]{analytic_0.pdf}}
+    }~
+    \subfloat[Analytic tractions mid simulation.]
+    {
+        { \includegraphics[width=0.3\linewidth]{analytic_50.pdf}}
+    }~
+    \subfloat[Analytic tractions end.]
+    {
+        { \includegraphics[width=0.3\linewidth]{analytic_66.pdf}}
+    }
 
-This does not mean numeric tractions are useless, in fact, thethiny mostly work quite well. However, the impact their inherent numerical instability can be quite large. For us, analytic tractions despite being approximately an order of magnitude slower than numerically calculated tractions with $Q = 1$ \cite{Queyreau} (our tests agree with their findings), yield more stable and ultimately faster simulations. Even simple simulations are typically faster when using analytic tractions over numeric ones. The margin grows the more complex the simulation and the further each simulation gets. It's all down to better behaved segments at or near surfaces. As such, we cannot recommend using numeric tractions when analytic ones are available. The losses in computational speed that result from moving from one to the other are more than made up for by the fewer topological operations, fewer generated segments, and more accurate velocities. All of which result in fewer calculations of segment-segment interactions, fewer collisions, larger timesteps and ultimately cleaner simulations that run into fewer snags along the way.
+    \subfloat[Numeric tractions $t = 0$.]
+    {
+        { \includegraphics[width=0.3\linewidth]{numeric_0.pdf}}
+    }~
+    \subfloat[Numeric tractions mid simulation.]
+    {
+        { \includegraphics[width=0.3\linewidth]{numeric_78.pdf}}
+    }~
+    \subfloat[Numeric tractions $t \to \infty$.]
+    {
+        { \includegraphics[width=0.3\linewidth]{numeric_156.pdf}}
+    }
+    \caption{Progression of simulations using both traction calculation methods.}
+    \label{f:simulation}
+\end{figure}
 
-% Add line plot for a dislocation further away from the edge.
-% TODO #28
+Often the effects of tractions on a simulation can be quite subtle if things do not go catastrophically wrong, but a quick and easy way of seeing how the numeric tractions have a tendancy to spike and invert sign (as in \cref{f:line_head_vs_ana_vs_num}) is to pause a simulation while its running and scatter plot the numeric tractions vs analytic ones. The plot will show a positive correlation---as the sign inversions in numeric tractions are relatively rare events---but whichever axis corresponds to the numeric tractions will have the largest range. Using proportional axes makes the differences quite evident even at a quick glance as the aspect ratio will be far from 1:1.
 
-% In a DDP simulation it is rare to find a dislocation segment so close to a quadrature point that the errors spike so dramatically. However, numerical integration with small $Q$ produces noticeable errors over a wide range of distances and segment lengths. Simulations usually contain a large number of dislocations which are parallel or near-parallel and close to surface elements. \Cref{f:rel_err_par_edge} shows it is not possible to accurately compute the tractions and nodal forces using Gauss quadrature even with a large number of quadrature points.
+In other parts of our work, we have noted that despite the analytic tractions taking approximately 10 times longer to compute than numerically calculated tractions with $Q = 1$ (which agrees with the findings in \cite{Queyreau}), yield more stable and ultimately faster simulations. Even simple simulations are typically faster when using analytic tractions over numeric ones. This was not the case with the simulation we show here, but the numeric tractions led to a hung simulation, which we have found is quite common. The margin by which using analytic tractions leads to faster overall simulations grows as simulation complexity increases. Only the simplest simulations initially benefit from numeric tractions but this often decreases and reverses as the simulation advances. Another fortunate side effect of more accurate tractions is the fact that fewer dislocation segments are generated during simulations, which \citet{bromage2018calculating} found when correctly accounting for the displacements generated by dislocations.
 
-% It is worth noting that rotational perturbation required for the analytic solution to be non-singular when a dislocation segment is parallel to a surface element can introduce small erroneous force components if the rotation is too large. If the rotational perturbations were small enough and floating point arithmetic exact, these erroneous forces would cancel when averaged over two opposite rotations. We found that a maximum rotation angle of $\pm0.5^\circ$ makes these erroneous force components negligible.
+\section{Conclusion}
 
-% % TODO #23
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{images/load_disp.pdf}
-%     \caption{Load-displacement curve. When the tractions are evaluated analytically the curve is less noisy compared to numerical integration. As expected the yield point remains the same in both cases.}
-%     \label{f:load_disp_curve}
-% \end{figure}
+Given our findings, we cannot recommend using numeric tractions when analytic ones are available. The losses in computational speed that result from moving from one to the other are more than made up for by the fewer topological operations, fewer generated segments, and more accurate velocities. All of which result in fewer calculations of segment-segment interactions, fewer collisions, larger timesteps and ultimately cleaner simulations that run into fewer snags along the way.
 
-% The purpose of the cantilever simulation showed herein is not to be have an exactly physical when it comes to dislocation structure. Our initial source sizes and structure are somewhat unphysical, i.e. square sources with segment lengths on the order of the FE mesh courseness. There are also known issues with junction formation when multiple active slip systems are used in a single simulation. However, we are investigating not only the results but also the robustness and numerical stability of a fully integrated implementation of analytical solutions to dislocation tractions. By throwing the worst case scenario at both numerical and analytic traction calculations, we ensure both numerical and analytic solutions work even when the multiscale nature of the problem causes serious floating point arithmetic errors.
-
-% TODO #22 
-% A full discrete dislocation plasticity simulation of a microcantilever bend test demonstrates the benefits of using the analytic solution over numerical integration. The FE nodal forces were evaluated using Gauss quadrature with a single integration point for one simulation, and analytical tractions for the other. The simulations were otherwise identical with a finite element size of $0.25\mu\textrm{m}$ and sixty initial sources equally distributed on the 12 $\{1\bar{1}0\}\langle111\rangle$ bcc slip systems randomly distributed inside the region occuping the central $70\%$ of the cantilever ensuring the simulation proceeded at an acceptable rate and avoiding dislocations from exiting the fixed end, which can lead to problems due to the necessary FEM boundary conditions. The beam was fixed at $x=0$ and displaced by $U_{z}=-0.15~\mu\textrm{m}$ at $x=L=15~\mu\textrm{m}$. The material parameters were those of bcc tungsten, $\mu = 145\,\textrm{GPa}$ and $\nu = 0.28$. The analytic solution significantly reduced the noise in the load displacement curve as shown in \cref{f:load_disp_curve}.
-
-% The inset in \cref{f:load_disp_curve} shows the yield point remains the same, but the reaction forces diverge from each other as the simulation progresses. It should be noted that the dislocation structure was unchanged and so the change in the mechanical response is due entirely to the accuracy of the force calculation. The fluctuations are due to dislocations approaching a free surface and generating a large traction which is suddenly removed when the segment exits. These events are difficult to capture accurately when using numerical integration.
-
-% The dislocation structure did not change much in either case. In fact, when looking at it from the zoom level of \cref{f:dln_struc}, they both appear identical. There are however, many small differences in node position. Surprisingly, depending on the specific simulation, we have found between $10--20\%$ less dislocation segments when the analytic solution is used. Meaning the numerical solution systematically underestimates the average contribution of every single dislocation segment, with occasional massive spikes in force when a dislocation nears a gauss point. We expect these differences to get larger as simulation runtime increases. This is a fundamental and practically unavoidable problem of the numerical solution.
-
-% % TODO #24
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{images/analytic_struct.pdf}
-%     \caption{Final dislocation structure using analytic tractions.}
-%     \label{f:dln_struc}
-% \end{figure}
-
-% There are a few things that determine whether the numerical solutions are good enough for a given problem. When primarily investigating larger scale features of a dislocation structure---such as larger scale investigation of dislocation forresting around inclusions---Gauss quadrature is quite suitable. However, if one is interested in investigating the finer details of a dislocation structure---such as the nuanced interactions with closly packed inclusions---the analytic method is best. Furthermore, when investigating load-displacement curves, the analytical solutions provide a much better description for a relatively small increase in computational cost \cite{Queyreau}. That being said, the cost is nowhere near rate limiting, segment-segment forces and topological changes quickly become much more expensive as they both have worse asymptotic scaling, and topological changes also quickly become memory bound. An accurate description of load-displacement curves should also implement the exact displacement boundary conditions obtained by \citet{ddd_disp}.
-
-All our subsequent simulations have used analytic tractions as they run faster and yield more reasonable dislocation structures, particularly for more complex simulations.
+There is a case however, for combining both approaches in larger scale simulations. Since both numeric and analytic tractions converge to the same value as the dislocation-surface distance increases, a hybrid approach may possibly be undertaken without many negatives. Furthermore, \cite{Queyreau} also derived a Taylor series expansion of the solutions which can be used in cases where the dislocation-surface distance is large. These may be worth exploring in larger scale simulatios. However, in the types of systems we model, other parts of our model tend to be much more rate-limiting than tractions. As such, we have all but ceased to use numeric tractions in our work.
 
 \section{Acknowledgements}
 
