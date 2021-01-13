@@ -545,7 +545,7 @@ As stated in \cref{s:method}, tractions are used to calculate the image stresses
     }~
     \subfloat{\includegraphics[height = 0.22\linewidth]{syyNAEperp_leg.pdf}}
 
-    \subfloat[%$\hat{\sigma}_{xy}$.
+    \hspace*{0.2cm}\subfloat[%$\hat{\sigma}_{xy}$.
         \hspace{-0.8cm}\label{sf:sxyeperp}]
     {
         {\includegraphics[width=0.25\linewidth]{images/sxyEperp_leg.pdf}}
@@ -560,9 +560,10 @@ As stated in \cref{s:method}, tractions are used to calculate the image stresses
     {
         {\includegraphics[width=0.25\linewidth]{images/sxyNEperp_leg.pdf}}
     }~
-    \subfloat{
+    \hspace*{-0.2cm}\subfloat{
         \includegraphics[height = 0.22\linewidth]{sxyNAEperp_leg.pdf}
     }
+
     \caption{Image stresses for an edge dislocation with $\vec{l} = [0 0 1]$, $\vec{b} = [1 0 0]$, where $a = 5~b$, with coordinates $(25.6410,\, 1000)~b$, i.e. the centre of the first FE from the surface at $x=0$, and in the centre of the simulation box from top to bottom. From left to right, the subfigure columns correspond to the stress fields for the infinite-domain solution (no superscript), analytic tractions + FEM (A superscript), and numeric tractions ($Q = 1$) + FEM (N superscript). The subfigure rows from top to bottom represent $\hat{\sigma}_{xx}$, $\hat{\sigma}_{yy}$ and $\hat{\sigma}_{xy}$.}
     \label{f:head_vs_ana_vs_num_eperp}
 \end{figure}
