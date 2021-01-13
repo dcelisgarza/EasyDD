@@ -18,6 +18,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode} % Package for algorithm typesetting (pseudo-code).
 \usepackage{lmodern}
+% \usepackage{snapshot}
 \graphicspath{{./images/}}
 \input{macros.tex}
 
@@ -162,7 +163,7 @@ Where the sum is over the $Q$ quadrature points and $J_{ij}=dx_{i}/ds_{j}$ is th
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{images/force_calc_linear_rectangle.pdf}
+    \includegraphics[width=0.8\linewidth]{force_calc_linear_rectangle.pdf}
     \caption{Diagram of the parametric line integrals solved by \citet{Queyreau} to find the forces on linear rectangular surface elements.}
     \label{f:force_lin_rect}
 \end{figure}
@@ -272,7 +273,7 @@ The symmetry of the simple test cases can also influence how solution is as the 
 %		
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{images/test_gauss_quad.pdf}
+    \includegraphics[width=0.8\linewidth]{test_gauss_quad.pdf}
     \caption{Simple test cases for an edge segment and surface element perpendicular (a) and parallel (b). The perpendicular dislocation is centered at the midpoint of the surface element, node $\mathbf{x_1}$ is separated by a perpendicular distance $\mathbf{x_1}^z$ to prevent the dislocation from intersecting the surface. On the right, the parallel dislocation runs along the$x$-axis at half the height of the surface element. The nodes of each dislocation line segment are kept at a perpendicular distance of at least one core radius away from the surface element.}
     \label{f:gauss_quad_test}
 \end{figure}
@@ -308,12 +309,12 @@ Furthermore, the chirality and self-consistency of the  FE nodes must be account
     \centering
     \subfloat[Node numbering for our FE voxels.\label{f:fe_numbering}]
     {
-        { \includegraphics[width=0.375\linewidth]{images/fe_numbering.pdf} }
+        { \includegraphics[width=0.375\linewidth]{fe_numbering.pdf} }
     }
     \hfill
     \subfloat[Surface nodes selected for each face.\label{f:surface_nodes}]
     {
-        { \includegraphics[width=0.525\linewidth]{images/surf_node_plane.pdf} }
+        { \includegraphics[width=0.525\linewidth]{surf_node_plane.pdf} }
     }
     \caption{Surface element nodes must be self-consistent so the forces have the correct sign.}
 \end{figure}
@@ -322,7 +323,7 @@ The total force on a given node must include the force contributions from every 
 %
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{images/lrse_thread_map.pdf}
+    \includegraphics[width=\linewidth]{lrse_thread_map.pdf}
     \caption{FE nodes are shared by either 4 element faces or 3 if it is a corner node. The total force on a given node is the summation of the force contributions from each element it belongs to.}
     \label{f:shared_node}
 \end{figure}
@@ -472,32 +473,32 @@ We also plot the relevant stresses for the arrangement described by \cref{f:gaus
     \centering
     \subfloat[\label{sf:xzeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxzperpEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{sxzperpEdgeFiveb.pdf}}
     }
     ~
     \subfloat[\label{sf:yzeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/syzperpEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{syzperpEdgeFiveb.pdf}}
     }
     ~
     \subfloat[\label{sf:zzeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/szzperpEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{szzperpEdgeFiveb.pdf}}
     }
 
     \subfloat[\label{sf:xzepar}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxzparEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{sxzparEdgeFiveb.pdf}}
     }
     ~
     \subfloat[\label{sf:yzepar}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/syzparEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{syzparEdgeFiveb.pdf}}
     }
     ~
     \subfloat[\label{sf:zzepar}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/szzparEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{szzparEdgeFiveb.pdf}}
     }
     \caption{(a) to (c) show the relevant stress fields from a dislocation in the same configuration that yields the plots found in \cref{f:rel_err_perp_edge} as shown in \cref{f:gauss_quad_test}(a), where the closest node is a dislocation core radius away from the surface, $a = 5b$. (e) to (f) does the same for the configuration that yields \cref{f:rel_err_par_edge} as shown in \cref{f:gauss_quad_test}(b), where the whole dislocation is a core radius away from the surface, $a = 5b$. The white line or dot is the dislocation.}
     \label{f:sigma_edge_test_config}
@@ -514,51 +515,51 @@ As stated in \cref{s:method}, tractions are used to calculate the image stresses
     \subfloat[%$\hat{\sigma}_{xx}$.
         \hspace{-0.8cm}\label{sf:sxxeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{xx}$.
         \hspace{-0.8cm}\label{sf:sxxAeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxAEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxAEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{xx}$.
         \hspace{-0.8cm}\label{sf:sxxNeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxNEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxNEperp_leg.pdf}}
     }~
     \subfloat{\includegraphics[height = 0.22\linewidth]{sxxNAEperp_leg.pdf}}
 
     \subfloat[%$\hat{\sigma}_{yy}$.
         \hspace{-0.8cm}\label{sf:syyeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syyEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syyEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{yy}$.
         \hspace{-0.8cm}\label{sf:syyAeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syyAEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syyAEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{yy}$.
         \hspace{-0.8cm}\label{sf:syyNeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syyNEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syyNEperp_leg.pdf}}
     }~
     \subfloat{\includegraphics[height = 0.22\linewidth]{syyNAEperp_leg.pdf}}
 
     \hspace*{0.2cm}\subfloat[%$\hat{\sigma}_{xy}$.
         \hspace{-0.8cm}\label{sf:sxyeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxyEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxyEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{xy}$.
         \hspace{-0.8cm}\label{sf:sxyAeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxyAEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxyAEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{xy}$.
         \hspace{-0.8cm}\label{sf:sxyNeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxyNEperp_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxyNEperp_leg.pdf}}
     }~
     \hspace*{-0.2cm}\subfloat{
         \includegraphics[height = 0.22\linewidth]{sxyNAEperp_leg.pdf}
@@ -574,17 +575,17 @@ Things get markedly more interesting when looking at $\vec{b} = \vec{b}_{\textrm
     \subfloat[%$\hat{\sigma}_{xx}$.
         \hspace{-0.8cm}\label{sf:sxxepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxEpar_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{xx}$.
         \hspace{-0.8cm}\label{sf:sxxAepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxAEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxAEpar_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{xx}$.
         \hspace{-0.8cm}\label{sf:sxxNepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxNEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxNEpar_leg.pdf}}
     }~
     \subfloat{
         \includegraphics[height = 0.227\linewidth]{sxxNAEpar_leg.pdf}
@@ -593,17 +594,17 @@ Things get markedly more interesting when looking at $\vec{b} = \vec{b}_{\textrm
     \hspace*{0.3cm}\subfloat[%$\hat{\sigma}_{yy}$.
         \hspace{-0.8cm}\label{sf:syyepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syyEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syyEpar_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{yy}$.
         \hspace{-0.8cm}\label{sf:syyAepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syyAEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syyAEpar_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{yy}$.
         \hspace{-0.8cm}\label{sf:syyNepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syyNEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syyNEpar_leg.pdf}}
     }~
     \subfloat{
         \includegraphics[height = 0.227\linewidth]{syyNAEpar_leg.pdf}
@@ -612,17 +613,17 @@ Things get markedly more interesting when looking at $\vec{b} = \vec{b}_{\textrm
     \hspace*{0.3cm}\subfloat[%$\hat{\sigma}_{xy}$.
         \hspace{-0.8cm}\label{sf:sxyepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxyEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxyEpar_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{xy}$.
         \hspace{-0.8cm}\label{sf:sxyAepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxyAEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxyAEpar_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{xy}$.
         \hspace{-0.8cm}\label{sf:sxyNepar}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxyNEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxyNEpar_leg.pdf}}
     }~
     \subfloat{
         \includegraphics[height = 0.227\linewidth]{sxyNAEpar_leg.pdf}
@@ -638,17 +639,17 @@ Perhaps the most evident deformation resulting from the displacement boundaries 
     \subfloat[%$\hat{\sigma}_{xz}$.
         \hspace{-0.8cm}\label{sf:sxzscrew}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxzscrew_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxzscrew_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{xz}$.
         \hspace{-0.8cm}\label{sf:sxzAscrew}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxzAscrew_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxzAscrew_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{xz}$.
         \hspace{-0.8cm}\label{sf:sxzNscrew}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxzNscrew_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxzNscrew_leg.pdf}}
     }~
     \subfloat{
         \includegraphics[height = 0.227\linewidth]{sxzNAscrew_leg.pdf}
@@ -657,17 +658,17 @@ Perhaps the most evident deformation resulting from the displacement boundaries 
     \subfloat[%$\hat{\sigma}_{yz}$.
         \hspace{-0.8cm}\label{sf:szyscrew}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syzscrew_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syzscrew_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{yz}$.
         \hspace{-0.8cm}\label{sf:syzAscrew}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syzAscrew_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{syzAscrew_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{yz}$.
         \hspace{-0.8cm}\label{sf:syzNscrew}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syzNscrew_leg}}
+        {\includegraphics[width=0.25\linewidth]{syzNscrew_leg}}
     }~
     \subfloat{
         \includegraphics[height = 0.227\linewidth]{syzNAscrew_leg.pdf}
@@ -684,37 +685,37 @@ It is also worth looking at the stress fields with a finer lens. \Cref{f:line_he
     \centering
     \subfloat[$\hat{\sigma}_{xx}$.\label{sf:line_sxxperp}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxxEperp_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxxEperp_leg.pdf}}
     }~
     \subfloat[$\hat{\sigma}_{yy}$.\label{sf:line_syyeperp}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_syyEperp_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_syyEperp_leg.pdf}}
     }~
     \subfloat[$\hat{\sigma}_{xy}$.\label{sf:line_sxyeperp}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxyEperp_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxyEperp_leg.pdf}}
     }
 
     \subfloat[$\hat{\sigma}_{xx}$.\label{sf:line_sxxepar}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxxEpar_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxxEpar_leg.pdf}}
     }~
     \subfloat[$\hat{\sigma}_{yy}$.\label{sf:line_syyepar}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_syyEpar_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_syyEpar_leg.pdf}}
     }~
     \subfloat[$\hat{\sigma}_{xy}$.\label{sf:line_sxyepar}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxyEpar_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxyEpar_leg.pdf}}
     }
 
     \subfloat[$\hat{\sigma}_{xz}$.\label{sf:line_sxzscrew}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxzscrew_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxzscrew_leg.pdf}}
     }~
     \subfloat[$\hat{\sigma}_{yz}$.\label{sf:line_syzscrew}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_syzscrew_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_syzscrew_leg.pdf}}
     }
     \caption{Line plots of the image stresses at $x = 102.5641\, b$ (start of the third element) for the analytic image stresses, as well as those calculated with numeric and analytic tractions. The line corresponds to the first set of nodes away from the boundary at $x = 0\, b$. (a) to (c) correspond to $\vec{b} = \vec{b}_{\textrm{e1}}$, (d) to (f) $\vec{b} = \vec{b}_{\textrm{e2}}$ and (g) to (h) to $\vec{b} = \vec{b}_{\textrm{s}}$.}
     \label{f:line_head_vs_ana_vs_num}
@@ -725,68 +726,68 @@ We also show examples of contour \cref{f:line_head_vs_ana_vs_num_epar2to11} and 
     \centering
     \subfloat[\hspace{-0.8cm}\label{sf:sxxepar2}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxEpar_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxAepar2}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxAEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxAEpar_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxNepar2}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxNEpar_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxNEpar_leg.pdf}}
     }~
     \subfloat
     {
-        {\includegraphics[height=0.227\linewidth]{images/sxxNAEpar_leg.pdf}}
+        {\includegraphics[height=0.227\linewidth]{sxxNAEpar_leg.pdf}}
     }
 
     \hspace*{0.28cm}\subfloat[\hspace{-0.8cm}\label{sf:sxxepar11}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxEpar11_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxEpar11_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxAepar11}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxAEpar11_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxAEpar11_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxNepar11}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxNEpar11_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxNEpar11_leg.pdf}}
     }~
     {
-    {\includegraphics[height=0.227\linewidth]{images/sxxNAEpar11_leg.pdf}}
+    {\includegraphics[height=0.227\linewidth]{sxxNAEpar11_leg.pdf}}
     }
 
     \hspace*{0.28cm}\subfloat[\hspace{-0.8cm}\label{sf:sxxepartot2}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxEparTot3_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxEparTot3_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxAepartot2}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxAEparTot3_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxAEparTot3_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxNepartot2}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxNEparTot3_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxNEparTot3_leg.pdf}}
     }~
     {
-    {\includegraphics[height=0.227\linewidth]{images/sxxNAEparTot3_leg.pdf}}
+    {\includegraphics[height=0.227\linewidth]{sxxNAEparTot3_leg.pdf}}
     }
 
     \hspace*{0.28cm}\subfloat[\hspace{-0.8cm}\label{sf:sxxepartot11}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxEparTot11_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxEparTot11_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxAepartot11}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxAEparTot11_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxAEparTot11_leg.pdf}}
     }~
     \subfloat[\hspace{-0.8cm}\label{sf:sxxNepartot11}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxxNEparTot11_leg.pdf}}
+        {\includegraphics[width=0.25\linewidth]{sxxNEparTot11_leg.pdf}}
     }
     ~
     {
-    {\includegraphics[height=0.227\linewidth]{images/sxxNAEparTot11_leg.pdf}}
+    {\includegraphics[height=0.227\linewidth]{sxxNAEparTot11_leg.pdf}}
     }
     \caption{Stresses for an edge dislocation with $\vec{l} = [0 0 1]$, $\vec{b} = [0 1 0]$. Subfigures (a) to (g) show image stresses; (h) to (m) show total stresses. In subfigures (a) to (c) and (h) to (j) the dislocation is found at $(25.6410,\, 1000)\, b$; (e) to (g) and (k) to (m) the dislocation is at $(1000,\, 1000)\, b$.}
     \label{f:head_vs_ana_vs_num_epar2to11}
@@ -796,20 +797,20 @@ We also show examples of contour \cref{f:line_head_vs_ana_vs_num_epar2to11} and 
     \centering
     \subfloat[$\hat{\sigma}_{xx}$.\label{sf:line_sxxepar2}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxxEpar3.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxxEpar3.pdf}}
     }~
     \subfloat[$\hat{\sigma}_{xx}$.\label{sf:line_syyepar11}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxxEpar11_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxxEpar11_leg.pdf}}
     }
 
     \subfloat[$\sigma_{xx}$.\label{sf:line_sxxeparTot2}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxxEparTot3_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxxEparTot3_leg.pdf}}
     }~
     \subfloat[$\sigma_{xx}$.\label{sf:line_sxxeparTot11}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/line_sxxEparTot11_leg.pdf}}
+        {\includegraphics[width=0.3\linewidth]{line_sxxEparTot11_leg.pdf}}
     }
 
     \caption{Line plots corresponding to \cref{f:head_vs_ana_vs_num_epar2to11}. (a) and (c) are of the image stresses; (b) and (d) are of total stresses. (a) and (b) are of a dislocation at $(25.6410,\, 1000)\, b$, taken along the line $x = 102.5641\, b$. (b) and (d) are of a dislocation at $(1000,\, 1000)\, b$, taken along the line $x \approx 1076.9231\, b$.}
