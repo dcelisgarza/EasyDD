@@ -470,39 +470,34 @@ From \cref{f:rel_err_perp_edge,f:rel_err_par_edge} one might be tempted to say t
 We also plot the relevant stresses for the arrangement described by \cref{f:gauss_quad_test}(b) in \cref{sf:xzepar,sf:yzepar,sf:zzepar}. It is immediately apparent why gauss quadrature fails so spectacularly in \cref{f:rel_err_par_edge}. At low numbers of quadrature points, it fails to appropriately sample the rapidly changing value of $\tilde{\sigma}_{xz}$ at both ends of the dislocation as seen in \cref{sf:xzepar}, as well as the neighbourhood of the dislocation where $\tilde{\sigma}_{yz}$ changes most raplidly as shown in \cref{sf:yzepar}. Moreover, the further away the quadrature points are from the midpoint of the domain, the lower their relative weighting. So even with a relatively large number of them, there can still be large errors. Which is a particularly egregious problem in \cref{sf:yzepar}, and explains why such a large number of quadrature points is required to accurately compute the integral.
 \begin{figure}
     \centering
-    \subfloat[\hspace*{-0.9cm}\label{sf:xzeperp}]
+    \subfloat[\label{sf:xzeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/sxzperpEdgeFiveb_leg.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxzperpEdgeFiveb.pdf}}
     }
     ~
-    \subfloat[\hspace*{-0.9cm}\label{sf:yzeperp}]
+    \subfloat[\label{sf:yzeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/syzperpEdgeFiveb_leg.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/syzperpEdgeFiveb.pdf}}
     }
     ~
-    \subfloat[\hspace*{-0.9cm}\label{sf:zzeperp}]
+    \subfloat[\label{sf:zzeperp}]
     {
-        {\includegraphics[width=0.25\linewidth]{images/szzperpEdgeFiveb_leg.pdf}}
-    }
-    ~
-    \subfloat
-    {
-        {\includegraphics[height=0.234\linewidth]{images/sxzsyzszzperpEdgeFiveb_leg.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/szzperpEdgeFiveb.pdf}}
     }
 
-    \subfloat[\hspace*{-0.9cm}\label{sf:xzepar}]
+    \subfloat[\label{sf:xzepar}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/sxzparEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxzparEdgeFiveb.pdf}}
     }
     ~
-    \subfloat[\hspace*{-0.9cm}\label{sf:yzepar}]
+    \subfloat[\label{sf:yzepar}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/syzparEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/syzparEdgeFiveb.pdf}}
     }
     ~
-    \subfloat[\hspace*{-0.9cm}\label{sf:zzepar}]
+    \subfloat[\label{sf:zzepar}]
     {
-        {\includegraphics[width=0.3\linewidth]{images/szzparEdgeFiveb.pdf}}
+        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/szzparEdgeFiveb.pdf}}
     }
     \caption{(a) to (c) show the relevant stress fields from a dislocation in the same configuration that yields the plots found in \cref{f:rel_err_perp_edge} as shown in \cref{f:gauss_quad_test}(a), where the closest node is a dislocation core radius away from the surface, $a = 5b$. (e) to (f) does the same for the configuration that yields \cref{f:rel_err_par_edge} as shown in \cref{f:gauss_quad_test}(b), where the whole dislocation is a core radius away from the surface, $a = 5b$. The white line or dot is the dislocation.}
     \label{f:sigma_edge_test_config}
@@ -517,51 +512,56 @@ As stated in \cref{s:method}, tractions are used to calculate the image stresses
 \begin{figure}
     \centering
     \subfloat[%$\hat{\sigma}_{xx}$.
-        \label{sf:sxxeperp}]
+        \hspace{-0.8cm}\label{sf:sxxeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxxEperp.pdf}}
+        {\includegraphics[width=0.25\linewidth]{images/sxxEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{xx}$.
-        \label{sf:sxxAeperp}]
+        \hspace{-0.8cm}\label{sf:sxxAeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxxAEperp.pdf}}
+        {\includegraphics[width=0.25\linewidth]{images/sxxAEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{xx}$.
-        \label{sf:sxxNeperp}]
+        \hspace{-0.8cm}\label{sf:sxxNeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxxNEperp.pdf}}
-    }
+        {\includegraphics[width=0.25\linewidth]{images/sxxNEperp_leg.pdf}}
+    }~
+    \subfloat{\includegraphics[height = 0.22\linewidth]{sxxNAEperp_leg.pdf}}
 
     \subfloat[%$\hat{\sigma}_{yy}$.
-        \label{sf:syyeperp}]
+        \hspace{-0.8cm}\label{sf:syyeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/syyEperp.pdf}}
+        {\includegraphics[width=0.25\linewidth]{images/syyEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{yy}$.
-        \label{sf:syyAeperp}]
+        \hspace{-0.8cm}\label{sf:syyAeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/syyAEperp.pdf}}
+        {\includegraphics[width=0.25\linewidth]{images/syyAEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{yy}$.
-        \label{sf:syyNeperp}]
+        \hspace{-0.8cm}\label{sf:syyNeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/syyNEperp.pdf}}
-    }
+        {\includegraphics[width=0.25\linewidth]{images/syyNEperp_leg.pdf}}
+    }~
+    \subfloat{\includegraphics[height = 0.22\linewidth]{syyNAEperp_leg.pdf}}
 
     \subfloat[%$\hat{\sigma}_{xy}$.
-        \label{sf:sxyeperp}]
+        \hspace{-0.8cm}\label{sf:sxyeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxyEperp.pdf}}
+        {\includegraphics[width=0.25\linewidth]{images/sxyEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{A}_{xy}$.
-        \label{sf:sxyAeperp}]
+        \hspace{-0.8cm}\label{sf:sxyAeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxyAEperp.pdf}}
+        {\includegraphics[width=0.25\linewidth]{images/sxyAEperp_leg.pdf}}
     }~
     \subfloat[%$\hat{\sigma}^\textrm{N}_{xy}$.
-        \label{sf:sxyNeperp}]
+        \hspace{-0.8cm}\label{sf:sxyNeperp}]
     {
-        {\includegraphics[trim={0.5cm 0cm 0cm 0cm},clip,width=0.3\linewidth]{images/sxyNEperp.pdf}}
+        {\includegraphics[width=0.25\linewidth]{images/sxyNEperp_leg.pdf}}
+    }~
+    \subfloat{
+        \includegraphics[height = 0.22\linewidth]{sxyNAEperp_leg.pdf}
     }
     \caption{Image stresses for an edge dislocation with $\vec{l} = [0 0 1]$, $\vec{b} = [1 0 0]$, where $a = 5~b$, with coordinates $(25.6410,\, 1000)~b$, i.e. the centre of the first FE from the surface at $x=0$, and in the centre of the simulation box from top to bottom. From left to right, the subfigure columns correspond to the stress fields for the infinite-domain solution (no superscript), analytic tractions + FEM (A superscript), and numeric tractions ($Q = 1$) + FEM (N superscript). The subfigure rows from top to bottom represent $\hat{\sigma}_{xx}$, $\hat{\sigma}_{yy}$ and $\hat{\sigma}_{xy}$.}
     \label{f:head_vs_ana_vs_num_eperp}
