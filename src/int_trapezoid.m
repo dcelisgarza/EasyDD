@@ -64,6 +64,11 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, MU, NU, a, Ec, link
             convergent = 1;
         end
 
+        if dt < 10 * eps
+            dt = 10 * eps;
+            counter = maxiter + 1;
+        end
+
     end
 
     %Rearrange rnvec and vnvec into rn and vn matrices
