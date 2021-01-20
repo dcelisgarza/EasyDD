@@ -14,6 +14,7 @@ outputname = './paper/images/analytic.gif';
 while counter < 66
     filename = strcat(nameA, sprintf('%d', counter));
     load(filename)
+    view([0 0])
 %     view([-15 15])
     plotnodes(rn,links,plim,vertices);
     % Capture the plot as an image
@@ -84,6 +85,7 @@ outputname = './paper/images/numeric.gif';
 while counter < 156
     filename = strcat(nameN, sprintf('%d', counter));
     load(filename)
+    view([0 0])
 %     view([-15 15])
     plotnodes(rn,links,plim,vertices);
     % Capture the plot as an image
