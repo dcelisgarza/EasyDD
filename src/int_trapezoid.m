@@ -60,8 +60,13 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, MU, NU, a, Ec, link
 
         end
 
-        if counter > maxiter || dt == dt0 || dt < 10 * eps%End loop if maximum number of iterations is reached or curren timestep is maximum timestep
+        if counter > maxiter || dt == dt0%End loop if maximum number of iterations is reached or curren timestep is maximum timestep
             convergent = 1;
+        end
+
+        if dt < 10 * eps
+            dt = 10 * eps;
+            dt_old_good = 1;
         end
 
     end
