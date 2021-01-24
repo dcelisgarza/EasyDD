@@ -43,30 +43,23 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, MU, NU, a, Ec, link
             break
         end
 
-        if (errmag < rntol) && (distmag < rmax)%If error and max distance move are in acceptable limits
+        if dt <= 10 * eps
+            counter = maxiter + 1;
+        elseif (errmag < rntol) && (distmag < rmax)%If error and max distance move are in acceptable limits
             dt_old = dt; %Store current timestep as maximum acceptable timestep
             factor = maxchange * (1 / (1 + (maxchange^exponent - 1) * (errmag / rntol)))^(1 / exponent);
             dt = min(dt * factor, dt0); %Increase timestep depending on the magnitude of the error
             dt_old_good = 1; %Flag acceptable timestep calculated
             counter = counter + 1; %Proceed to next iteration
+        elseif dt_old_good == 1%If current timestep is too large, use largest acceptable timestep
+            dt = dt_old;
+            counter = maxiter;
         else
-
-            if dt_old_good == 1%If current timestep is too large, use largest acceptable timestep
-                dt = dt_old;
-                counter = maxiter;
-            else
-                dt = dt / 2; %If no acceptable timestep has been calculated, halve timestep and try again
-            end
-
+            dt = dt / 2; %If no acceptable timestep has been calculated, halve timestep and try again
         end
 
         if counter > maxiter || dt == dt0%End loop if maximum number of iterations is reached or curren timestep is maximum timestep
             convergent = 1;
-        end
-
-        if dt < 10 * eps
-            dt = 10 * eps;
-            dt_old_good = 1;
         end
 
     end
