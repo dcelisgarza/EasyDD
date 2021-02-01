@@ -245,22 +245,22 @@ void mexFunction(int nlhs, mxArray *plhs[],
                     }
 
                     logic = (dist2[0] < mindist2) && (ddist2dt[0] < -eps) && newseglen > mindist2;
-
                     if (logic == 1)
                     {
-                        colliding_segments[0] = 1;
-                        n1s1[0] = (double)(n1s1_int + 1); // correct for matlab indexing
-                        n1s2[0] = (double)(nodenoti + 1); // correct for matlab indexing
-                        n2s1[0] = (double)(n2s1_int + 1); // correct for matlab indexing
-                        n2s2[0] = (double)(nodenoti + 1); // correct for matlab indexing
-                        s1[0] = (double)linkid + 1;
-                        s2[0] = (double)link_row + 1;
+                        smallestMinDistTmp = 1 / dist2[0];
+                        if (smallestMinDistTmp > smallestMinDist)
+                        {
+                            smallestMinDist = smallestMinDistTmp;
+                            colliding_segments[0] = 1;
+                            n1s1[0] = (double)(n1s1_int + 1); // correct for matlab indexing
+                            n1s2[0] = (double)(nodenoti + 1); // correct for matlab indexing
+                            n2s1[0] = (double)(n2s1_int + 1); // correct for matlab indexing
+                            n2s2[0] = (double)(nodenoti + 1); // correct for matlab indexing
+                            s1[0] = (double)linkid + 1;
+                            s2[0] = (double)link_row + 1;
 
-                        floop[0] = 2;
-
-                        // remember to de-allocate 2D connectivity array
-                        mxFree(connectivity);
-                        return;
+                            floop[0] = 2;
+                        }
                     }
                 }
                 k = k + 1;
@@ -268,6 +268,13 @@ void mexFunction(int nlhs, mxArray *plhs[],
             j = j + 1;
         }
         i = i + 1;
+    }
+    // If the smallest minimum distance is not zero, we caught a hinge collision, so return.
+    if (smallestMinDist != 0.0)
+    {
+        // remember to de-allocate 2D connectivity array
+        mxFree(connectivity);
+        return;
     }
 
     /*look for unconnected links*/
