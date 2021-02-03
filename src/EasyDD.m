@@ -70,12 +70,12 @@ CUDA_flag = compileCode(CUDA_flag);
 consistencycheck(rn, links, connectivity, linksinconnect);
 
 % Construct stiffeness matrix K and pre-compute L,U decompositions.
-[vertices, B, xnodes, mno, nc, n, D, kg, w, h, d, mx, my, mz, mel] = ...
+[S, vertices, B, xnodes, mno, nc, n, D, kg, w, h, d, mx, my, mz, mel] = ...
     finiteElement3D(dx, dy, dz, mx, my, mz, MU, NU);
 
 [K, L, U, P_l, P_u, Sleft, Sright, Stop, Sbot, Sfront, Sback, Smixed, gammat, ...
         gammau, gammaMixed, fixedDofs, freeDofs, processForceDisp, plotForceDisp] = ...
-    simType(kg, w, h, d, mno, mx, my, mz);
+    simType(kg, w, h, d, mno, mx, my, mz, S);
 
 plotFEMDomain(Stop, Sbot, Sright, Sleft, Sfront, Sback, Smixed, xnodes)
 

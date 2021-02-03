@@ -67,6 +67,187 @@ segments = constructsegmentlist(rn, links, true);
 
 fPK = pkforcevec(uhat, nc, xnodes, D, mx, mz, w, h, d, segments)
 %%
+mu = 1;
+nu = 0.28;
+numNode = 2;
+numSeg = numNode - 1;
+len = numNode + 1;
+xrange = linspace(-300, 300, len);
+yrange = linspace(-300, 300, len);
+
+X = xrange .* ones(length(yrange))';
+Y = yrange' .* ones(length(xrange));
+Z = zeros(length(xrange))' .* zeros(len);
+points = [X(:) Y(:) Z(:)];
+
+l = [0; 0; 1];
+b = [1; 0; 0];
+n = cross(b, l);
+a = 5 * norm(b);
+
+links = zeros(numSeg, 2);
+slipPlane = zeros(numSeg, 3);
+bVec = zeros(numSeg, 3);
+rn = [zeros(len, 1) zeros(len, 1) xrange'];
+label = zeros(len, 1);
+for i = 1:numSeg
+    links(i, :) = [i, i + 1];
+    slipPlane(i, :) = n;
+    bVec(i, :) = b;
+end
+links = [links bVec slipPlane];
+
+segments = constructsegmentlist(rn, links, true);
+x1 = segments(:, 6:8);
+x2 = segments(:, 9:11);
+b = segments(:, 3:5);
+
+stress = FieldPointStress(points, x1, x2, b, a, mu, nu);
+
+%%
+
+mu = 1;
+nu = 0.28;
+numNode = 2;
+numSeg = numNode - 1;
+len = numNode + 1;
+xrange = linspace(-300, 300, len);
+yrange = linspace(-300, 300, len);
+
+X = xrange .* ones(length(yrange))';
+Y = yrange' .* ones(length(xrange));
+Z = zeros(length(xrange))' .* zeros(len);
+points = [X(:) Y(:) Z(:)];
+
+l = [0; 0; 1];
+b = [0; 0; 1];
+n = cross(b, l);
+a = 5 * norm(b);
+
+links = zeros(numSeg, 2);
+slipPlane = zeros(numSeg, 3);
+bVec = zeros(numSeg, 3);
+rn = [zeros(len, 1) zeros(len, 1) xrange'];
+label = zeros(len, 1);
+for i = 1:numSeg
+    links(i, :) = [i, i + 1];
+    slipPlane(i, :) = n;
+    bVec(i, :) = b;
+end
+links = [links bVec slipPlane];
+
+segments = constructsegmentlist(rn, links, true);
+x1 = segments(:, 6:8);
+x2 = segments(:, 9:11);
+b = segments(:, 3:5);
+
+stress = FieldPointStress(points, x1, x2, b, a, mu, nu);
+%%
+
+mx = 3;
+my = 5;
+mz = 7;
+dx = 1013.0;
+dy = 1987.0;
+dz = 2999.0;
+nu = 0.28;
+mu = 1;
+
+[vertices, B, xnodes, mno, nc, n, D, kg, w, h, d, mx, my, mz, mel] = ...
+    finiteElement3D(dx, dy, dz, mx, my, mz, mu, nu);
+simType = @cantileverBending;
+[K, L, U, P_l, P_u, Sleft, Sright, Stop, Sbot, Sfront, Sback, Smixed, gammat, ...
+        gammau, gammaMixed, fixedDofs, freeDofs, processForceDisp, plotForceDisp] = ...
+    simType(kg, w, h, d, mno, mx, my, mz);
+
+gnl = [gammau(:, 1); gammaMixed(:, 1)];
+
+coord =  [718.0     863.636  1417.86
+ 675.742  1021.34   1302.41
+ 534.345  1162.74   1302.41
+ 376.636  1205.0    1417.86
+ 295.0    1123.36   1581.14
+ 337.258   965.655  1696.59
+ 478.655   824.258  1696.59
+ 636.364   782.0    1581.14
+ 686.679  1173.68   1557.23
+ 662.769  1149.77   1360.14
+ 547.318  1034.32   1244.69
+ 407.957   894.957  1278.5
+ 326.321   813.321  1441.77
+ 350.231   837.231  1638.86
+ 465.682   952.682  1754.31
+ 605.043  1092.04   1720.5];
+
+label = zeros(16, 1);
+
+links = [1   2
+  2   3
+  3   4
+  4   5
+  5   6
+  6   7
+  7   8
+  8   1
+  9  10
+ 10  11
+ 11  12
+ 12  13
+ 13  14
+ 14  15
+ 15  16
+ 16   9];
+
+b = [0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735
+ 0.57735  0.57735  0.57735];
+
+slip = [-0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0
+ -0.707107  0.707107  0.0];
+links = [links b slip];
+rn = [coord label];
+
+u_tilda_0 = zeros(3*mno,1);
+gnl = [1, 161, 29, 189, 33, 65, 97, 129, 61, 93, 125, 157, 5, 9, 13, 17, 21, 25, 165, 169, 173, 177, 181, 185, 37, 41, 45, 49, 53, 57, 69, 73, 77, 81, 85, 89, 101, 105, 109, 113, 117, 121, 133, 137, 141, 145, 149, 153, 32, 192, 64, 96, 128, 160]';
+% gnl = sort(gnl);
+[ux, uy, uz] = Utilda_bb_vec(rn, links, gnl, nu, xnodes, dx, dy, dz, mx, my, mz);
+
+u_tilda_0(3 * gnl - 2) = ux;
+    u_tilda_0(3 * gnl - 1) = uy;
+    u_tilda_0(3 * gnl) = uz;
+% u_tilda_0 = calculateUtilda(rn, links, gnl, nu, xnodes, dx, ...
+%     dy, dz, mx, my, mz, u_tilda_0);
+% 
+% u_tilda_0
+
+%%
 function f = pkforcevec(uhat, nc, xnodes, D, mx, mz, w, h, d, segments)
     %nodal force on dislocation segments due to applied stress sigext
     %(vectorized version)

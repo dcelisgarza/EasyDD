@@ -1,0 +1,2 @@
+loading = @displacementControlMicropillarTensile;
+simType = micropillarTensile;
