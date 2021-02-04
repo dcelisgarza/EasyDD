@@ -16,7 +16,25 @@ gammat = S.cat(gammatIdx, :);
 
 Smixed = gammaMixed;
 
-fixedDofs = [3*gammau(:, 1) - 2; 3*gammau(:, 1) - 1; 3*gammau(:, 1); 3*gammaMixed(:,1) - 2];
+fixedDofs = [
+    3*S.left(:,1) - 2;
+    3*S.botleft(:,1) - 2;
+    3*S.topleft(:,1) - 2;
+    3*S.frontleft(:,1) - 2;
+    3*S.backleft(:,1) - 2;
+    3*S.corners([1,3,5,7], 1) - 2;
+    %
+    3*S.backleft(:,1) - 1;
+    3*S.corners([3,7], 1) - 1;
+    %
+    3*S.botleft(:,1);
+    3*S.corners([1,3], 1);
+    %
+    3*S.corners([2,4,6,8], 1) - 2
+];
+
+
+% fixedDofs = [3*gammau(:, 1) - 2; 3*gammau(:, 1) - 1; 3*gammau(:, 1); 3*gammaMixed(:,1) - 2];
 freeDofs = setdiff([1:3*mno], fixedDofs);
 
 K = kg(freeDofs, freeDofs);
