@@ -1,11 +1,11 @@
-function [vn, fn] = mobfcc0(fseg, rn, links, connectivity, nodelist, conlist, Bcoeff, rotMatrix)
+function [vn, fn] = mobfcc0(fseg, rn, links, connectivity, nodelist, conlist, Bcoeff, rotMatrix) %#codegen
 %mobility law function (model: FCC0)
 
 %Drag (Mobility) parameters (should be specified by Input file)
-Bscrew = Bcoeff.screw;
-Bedge = Bcoeff.edge;
-Bclimb = Bcoeff.climb;
-Bline = Bcoeff.line;
+Bscrew = Bcoeff.screw(1);
+Bedge = Bcoeff.edge(1);
+Bclimb = Bcoeff.climb(1);
+Bline = Bcoeff.line(1);
 %     global Beclimb Bedge Bscrew Bline;
 %     Bclimb = Beclimb;
 
@@ -61,7 +61,7 @@ for n = 1:L1
         L = norm(rt);
         
         if L > 0.0
-            fsegn0 = fseg(linkid, 3 * (posinlink - 1) + [1:3]);
+            fsegn0 = fseg(linkid, 3 * (posinlink - 1) + (1:3));
             fn(n, :) = fn(n, :) + fsegn0; % nodeid for the node that n0 is connected to
             burgv = links(connectivity(n0, 2 * ii), 3:5); % burgers vector of the link
             linedir = rt ./ L;

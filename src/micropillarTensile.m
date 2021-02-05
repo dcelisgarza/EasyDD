@@ -16,6 +16,21 @@ gammat = S.cat(gammatIdx, :);
 
 Smixed = gammaMixed;
 
+% Sleft = [S.left(:,1);
+% S.botleft(:,1);
+% S.topleft(:,1);
+% S.frontleft(:,1);
+% S.backleft(:,1);
+% S.corners([1,3,5,7], 1)];
+% 
+% Sback = [S.backleft(:,1);
+%     S.corners([3,7], 1)];
+% 
+% Sfront = [S.botleft(:,1);
+%     S.corners([1,3], 1)];
+% 
+% Sright = [S.corners([2,4,6,8], 1)];
+
 fixedDofs = [
     3*S.left(:,1) - 2;
     3*S.botleft(:,1) - 2;
@@ -58,5 +73,5 @@ catch
 end
 
 processForceDisp = @micropillarTensileForceDisp;
-plotForceDisp = @cantileverBendingPlot;
+plotForceDisp = @micropillarTensilePlot;
 end
