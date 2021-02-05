@@ -62,8 +62,8 @@ vertices = [0, 0, 0; ...
 % The cantilever is dx micrometers long.
 timeUnit = 5e-3*(mumag*1e6);%/dx;
 u_dot = dx/timeUnit;
-u_dot = 5e-3;
-
+% u_dot = 5e-3;
+% u_dot = dx/mumag;
 
 % This is the proper plotting function.
 % plot(Usim(1:curstep-1)/mumag/1e6,Fsim(1:curstep-1)*amag^2*mumag/1e6/1e6)
@@ -86,9 +86,9 @@ segLen = 0.5 / amag;
 lmin = 0.1 / amag;
 lmax = 0.4 / amag;
 a = lmin/20;
-rann = lmin;
-rntol = lmin;
-rmax = lmin;
+% rann = lmin;
+% rntol = lmin;
+% rmax = lmin;
 
 
 xmin = 0.1*dx;
@@ -112,8 +112,8 @@ end
 
 % for i = 1:12
 %     idx = (i-1)*8;
-%     links = [links; (prismLinks((1:8)+idx, :) + idx) prismbVec((1:8)+idx, :) prismSlipPlane((1:8)+idx, :)];
-%     displacedCoord = prismCoord((1:8)+idx, :)*segLen + displacement(i, :);
+%     links = [links; (shearLinks((1:8)+idx, :) + idx) shearbVec((1:8)+idx, :) shearSlipPlane((1:8)+idx, :)];
+%     displacedCoord = shearCoord((1:8)+idx, :)*segLen + displacement(i, :);
 %     rn = [rn; displacedCoord [0;7;0;7;0;7;0;7]];
 % end
 % displacedCoord(:, 2) = displacedCoord(:, 2) + -6*segLen;
@@ -139,8 +139,8 @@ calculateTractions = @calculateAnalyticTractions;
 % calculateTractions = @calculateNumericTractions;
 
 
-CUDA_flag = true;
-para_scheme = 1;
+% CUDA_flag = true;
+% para_scheme = 1;
 
 
 

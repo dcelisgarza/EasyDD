@@ -1,6 +1,6 @@
 function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collideAndSeparateNodesAndSegments(docollision, doseparation, ...
         rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew, rann, MU, NU, a, Ec, mobility, vertices, rotMatrix, ...
-        u_hat, nc, xnodes, D, mx, mz, w, h, d, lmin, CUDA_flag, CUDA_segseg_flag, Bcoeff, curstep)
+        u_hat, nc, xnodes, D, mx, mz, w, h, d, lmin, CUDA_segseg_flag, Bcoeff, curstep)
 
     if (docollision)
 
@@ -22,14 +22,14 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collid
                 if colliding_segments == 1
                     [rnnew, linksnew, ~, ~, fsegnew, colliding_segments] = collision(rnnew, linksnew, connectivitynew, ...
                         linksinconnectnew, fsegnew, rann, MU, NU, a, Ec, mobility, vertices, rotMatrix, u_hat, nc, xnodes, ...
-                        D, mx, mz, w, h, d, floop, n1s1, n2s1, n1s2, n2s2, s1, s2, segpair, lmin, CUDA_flag, CUDA_segseg_flag, Bcoeff);
+                        D, mx, mz, w, h, d, floop, n1s1, n2s1, n1s2, n2s2, s1, s2, segpair, lmin, CUDA_segseg_flag, Bcoeff);
 
                     %removing links with effective zero Burgers vectors
                     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = cleanupsegments(rnnew, linksnew, fsegnew);
                     
 %                     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = separation(doseparation, rnnew, ...
 %                         linksnew, connectivitynew, linksinconnectnew, fsegnew, mobility, rotMatrix, MU, NU, a, Ec, ...
-%                         2 * rann, vertices, u_hat, nc, xnodes, D, mx, mz, w, h, d, CUDA_flag, CUDA_segseg_flag, Bcoeff);
+%                         2 * rann, vertices, u_hat, nc, xnodes, D, mx, mz, w, h, d, CUDA_segseg_flag, Bcoeff);
 
                 end
 

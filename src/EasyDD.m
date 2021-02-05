@@ -133,12 +133,12 @@ while simTime < totalSimTime
 
     %integrating equation of motion
     [rnnew, vn, dt, fn, fseg] = integrator(rn, dt, dt0, MU, NU, a, Ec, links, connectivity, ...
-        rmax, rntol, mobility, vertices, rotMatrix, u_hat, nc, xnodes, D, mx, mz, w, h, d, Bcoeff, CUDA_flag);
+        rmax, rntol, mobility, vertices, rotMatrix, u_hat, nc, xnodes, D, mx, mz, w, h, d, Bcoeff, CUDA_segseg_flag);
 
     % plastic strain and plastic spin calculations
     [ep_inc, wp_inc] = calcPlasticStrainIncrement(rnnew, rn, links, (2 * plim)^3);
 
-    plotSimulation(Usim, Fsim, rn, links, plim, vertices, plotFreq, viewangle, plotForceDisp, amag, mumag, curstep, plotFlags);
+    plotSimulation(Usim, Fsim, rn, links, plim, vertices, plotFreq, viewangle, plotForceDisp, amag, mumag, curstep, plotFlags, plotArgs);
 
     [planeindex] = outofplanecheck(rn, links);
 
@@ -148,22 +148,22 @@ while simTime < totalSimTime
     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = remeshPreCollision(rnnew, linksnew, ...
         connectivitynew, linksinconnectnew, fsegnew, lmin, lmax, areamin, areamax, MU, NU, a, Ec, ...
         mobility, rotMatrix, doremesh, dovirtmesh, vertices, u_hat, nc, xnodes, D, mx, mz, w, h, d, ...
-        TriangleCentroids, TriangleNormals, CUDA_flag, Bcoeff);
+        TriangleCentroids, TriangleNormals, CUDA_segseg_flag, Bcoeff);
 
     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collideAndSeparateNodesAndSegments(docollision, doseparation, ...
         rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew, rann, MU, NU, a, Ec, mobility, vertices, rotMatrix, ...
-        u_hat, nc, xnodes, D, mx, mz, w, h, d, lmin, CUDA_flag, Bcoeff, curstep);
+        u_hat, nc, xnodes, D, mx, mz, w, h, d, lmin, CUDA_segseg_flag, Bcoeff, curstep);
 
     rnnew = fixBlockadingNodes(rnnew, connectivitynew);
 
     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = separation(doseparation, rnnew, ...
         linksnew, connectivitynew, linksinconnectnew, fsegnew, mobility, rotMatrix, MU, NU, a, Ec, ...
-        2 * rann, vertices, u_hat, nc, xnodes, D, mx, mz, w, h, d, CUDA_flag, Bcoeff);
+        2 * rann, vertices, u_hat, nc, xnodes, D, mx, mz, w, h, d, CUDA_segseg_flag, Bcoeff);
 
     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = remesh_all(rnnew, linksnew, ...
         connectivitynew, linksinconnectnew, fsegnew, lmin, lmax, areamin, areamax, MU, NU, a, Ec, ...
         mobility, rotMatrix, doremesh, 0, vertices, u_hat, nc, xnodes, D, mx, mz, w, h, d, TriangleCentroids, ...
-        TriangleNormals, CUDA_flag, Bcoeff);
+        TriangleNormals, CUDA_segseg_flag, Bcoeff);
 
     [rn, vn, links, connectivity, linksinconnect, fseg] = updateMatricesBackward(rnnew, ...
         linksnew, connectivitynew, linksinconnectnew, fsegnew);
