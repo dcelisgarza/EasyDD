@@ -190,3 +190,6 @@ calculateTractions = @calculateAnalyticTractions;
 % % %Plotting
 % plotFreq=20; 
 % % savefreq=20;
+
+simName = date;
+simName = strcat(simName, 'tensile_zinc_100'); 
