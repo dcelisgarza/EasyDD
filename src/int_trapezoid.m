@@ -1,4 +1,4 @@
-function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, MU, NU, a, Ec, links, connectivity, ...
+function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, dtMin, MU, NU, a, Ec, links, connectivity, ...
         rmax, rntol, mobility, vertices, rotMatrix, uhat, nc, xnodes, D, mx, my, mz, w, h, d, Bcoeff, CUDA_flag)
 
     %Implicit numerical integrator using the Euler-trapezoid method adapted
@@ -21,7 +21,7 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, MU, NU, a, Ec, link
     exponent = 20; %Variable that controls the degree that the calculated error affects the cange in timestep
     dt_old_good = 0; %Logical which flags whether an acceptable timestep has been calculated
     convergent = 0; %Logical for the operation of the while loop
-
+    dtMinFlag = false;
     while (~convergent)
         rnvec1 = rnvec0 + vnvec0 * dt; %Euler forward method [Cai & Bulatov, eq. 10.43]
 
@@ -44,9 +44,8 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, MU, NU, a, Ec, link
             break
         end
 
-        if dt <= 10 * eps
-            counter = maxiter + 1;
-        elseif (errmag < rntol) && (distmag < rmax)%If error and max distance move are in acceptable limits
+        
+        if (errmag < rntol) && (distmag < rmax)%If error and max distance move are in acceptable limits
             dt_old = dt; %Store current timestep as maximum acceptable timestep
             factor = maxchange * (1 / (1 + (maxchange^exponent - 1) * (errmag / rntol)))^(1 / exponent);
             dt = min(dt * factor, dt0); %Increase timestep depending on the magnitude of the error
@@ -55,6 +54,12 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, MU, NU, a, Ec, link
         elseif dt_old_good == 1%If current timestep is too large, use largest acceptable timestep
             dt = dt_old;
             counter = maxiter;
+        elseif dt < dtMin
+            counter = counter + 1;
+            dt = dtMin;
+            dtMinFlag = true;
+        elseif dtMinFlag == true
+            counter = maxiter + 1;
         else
             dt = dt / 2; %If no acceptable timestep has been calculated, halve timestep and try again
         end

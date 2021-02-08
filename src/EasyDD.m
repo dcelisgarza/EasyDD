@@ -100,7 +100,7 @@ plotFEMDomain(Stop, Sbot, Sright, Sleft, Sfront, Sback, Smixed, xnodes)
 u_tilda_0 = calculateUtilda(rn, links, gamma_disp, NU, xnodes, dx, ...
     dy, dz, mx, my, mz, u_tilda_0);
 close all
-% save(sprintf('../output/initial_%s_%d', simName, curstep), 'K','kg','L','U','P_l','P_u');
+save(sprintf('../output/initial_%s_%d', simName, curstep), 'K','kg','L','U','P_l','P_u');
 
 fprintf('Initialisation complete.\n');
 %%
@@ -132,7 +132,7 @@ while simTime < totalSimTime
         r_hat, gammaMixed, fixedDofs, freeDofs, curstep, t, simTime);
 
     %integrating equation of motion
-    [rnnew, vn, dt, fn, fseg] = integrator(rn, dt, dt0, MU, NU, a, Ec, links, connectivity, ...
+    [rnnew, vn, dt, fn, fseg] = integrator(rn, dt, dt0, dtMin, MU, NU, a, Ec, links, connectivity, ...
         rmax, rntol, mobility, vertices, rotMatrix, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, Bcoeff, CUDA_segseg_flag);
 
     % plastic strain and plastic spin calculations

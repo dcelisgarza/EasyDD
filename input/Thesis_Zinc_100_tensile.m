@@ -87,33 +87,34 @@ lmin = 0.1 / amag;
 lmax = 0.4 / amag;
 a = lmin/20;
 rann = lmin;
-rntol = lmin;
+rntol = 2*lmin;
 rmax = 2*lmin;
 % rann = lmin;
 % rntol = lmin;
 % rmax = lmin;
 
 
-xmin = 0.2*dx;
-xmax = 0.2*dx;
-ymin = 0.5*dy;
-ymax = 0.5*dy;
-zmin = 0.5*dz;
-zmax = 0.5*dz;
+xmin = 0.1*dx;
+xmax = 0.9*dx;
+ymin = 0.1*dy;
+ymax = 0.9*dy;
+zmin = 0.1*dz;
+zmax = 0.9*dz;
 
 distRange = [xmin ymin zmin; xmax ymax zmax];
 displacement = distRange(1, :) + (distRange(2, :) - distRange(1, :)) .* rand(12, 3);
 links = [];
 rn = [];
 % 
-% % for i = 1:12
-% %     idx = (i-1)*8;
-% %     links = [links; (prismLinks((1:8)+idx, :) + idx) prismbVec((1:8)+idx, :) prismSlipPlane((1:8)+idx, :)];
-% %     displacedCoord = prismCoord((1:8)+idx, :)*segLen + displacement(i, :);
-% %     rn = [rn; displacedCoord [0;7;0;7;0;7;0;7]];
-% % end
+for i = 1:12
+    idx = (i-1)*8;
+    links = [links; (prismLinks((1:8)+idx, :) + idx) prismbVec((1:8)+idx, :) prismSlipPlane((1:8)+idx, :)];
+    displacedCoord = prismCoord((1:8)+idx, :)*segLen + displacement(i, :);
+    rn = [rn; displacedCoord [7;7;7;7;0;7;7;7]];
+end
 
-% % k = 1, 2 (high loading rate), 3 (low loading rate), 4, 5, 6, 7, 8, 9, 10, 11, 12 move for y < 0.5 dy
+
+% k = 1, 2 (high loading rate), 3 (low loading rate), 4, 5, 6, 7, 8, 9, 10, 11, 12 move for y < 0.5 dy
 % k = 0*8;
 % for i = 1:1
 %     idx = (i-1)*8;
@@ -123,14 +124,14 @@ rn = [];
 % end
 
 
-% k = 1, 2 (high loading rate), 3 (low loading rate), 4, 5, 6, 7, 8, 9, 10, 11, 12 move for y < 0.5 dy
-k = 0*8;
-for i = 1:1
-    idx = (i-1)*8;
-    links = [links; (prismLinks((1:8) + k, :) + idx) prismbVec((1:8) + k, :) prismSlipPlane((1:8) + k, :)];
-    displacedCoord = prismCoord((1:8) + k, :)*segLen + displacement(i, :);
-    rn = [rn; displacedCoord [0;7;7;7;0;7;7;7]];
-end
+% % k = 1, 2 (high loading rate), 3 (low loading rate), 4, 5, 6, 7, 8, 9, 10, 11, 12 move for y < 0.5 dy
+% k = 0*8;
+% for i = 1:1
+%     idx = (i-1)*8;
+%     links = [links; (prismLinks((1:8) + k, :) + idx) prismbVec((1:8) + k, :) prismSlipPlane((1:8) + k, :)];
+%     displacedCoord = prismCoord((1:8) + k, :)*segLen + displacement(i, :);
+%     rn = [rn; displacedCoord [0;7;7;7;0;7;7;7]];
+% end
 
 
 % % for i = 1:12
@@ -144,6 +145,7 @@ end
 
 plotnodes(rn,links,dx,vertices);
 dt0 = timeUnit;
+dtMin = timeUnit*1e-5;
 totalSimTime = timeUnit*1e4;
 mobility = @mobfcc0;
 saveFreq = 200;

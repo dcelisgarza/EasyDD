@@ -373,6 +373,11 @@ if ~exist('dt', 'var')
     fprintf('Providing default value for dt = %f.\n', dt)
 end
 
+if ~exist('dtMin', 'var')
+    dtMin = dt0*1e-6;
+    fprintf('Providing default value for dtMin = %f.\n', dtMin)
+end
+
 if ~exist('rotMatrix', 'var')
     rotMatrix = [];
     fprintf('Using standard coordinates, x = [1 0 0], y = [0 1 0], z = [0 0 1]\n')

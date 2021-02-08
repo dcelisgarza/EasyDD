@@ -113,7 +113,7 @@ displacement = distRange(1, :) + (distRange(2, :) - distRange(1, :)) .* rand(12,
 links = [];
 rn = [];
 
-for i = 1:12
+for i = 1:1
     idx = (i-1)*8;
     links = [links; (prismLinks((1:8)+idx, :) + idx) prismbVec((1:8)+idx, :)* rotMatrix' prismSlipPlane((1:8)+idx, :)* rotMatrix'];
     displacedCoord = prismCoord((1:8)+idx, :)*segLen* rotMatrix' + displacement(i, :);
