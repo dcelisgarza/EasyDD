@@ -37,7 +37,7 @@ fixedDofs = [
     3*S.topleft(:,1) - 2;
     3*S.frontleft(:,1) - 2;
     3*S.backleft(:,1) - 2;
-    3*S.corners([1,3,5,7], 1) - 2;
+    3*S.corners([1,3,5,7], 1) - 2;   
     %
     3*S.backleft(:,1) - 1;
     3*S.corners([3,7], 1) - 1;
@@ -45,7 +45,13 @@ fixedDofs = [
     3*S.botleft(:,1);
     3*S.corners([1,3], 1);
     %
-    3*S.corners([2,4,6,8], 1) - 2
+    3*S.corners([2,4,6,8], 1) - 2;
+    
+    3*S.right(:,1) - 2;
+    3*S.botright(:,1) - 2;
+    3*S.topright(:,1) - 2;
+    3*S.frontright(:,1) - 2;
+    3*S.backright(:,1) - 2;
 ];
 
 

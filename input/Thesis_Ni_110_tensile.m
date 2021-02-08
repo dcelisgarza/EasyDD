@@ -43,7 +43,7 @@ MU = 1.0;
 % Nickel poisson's ratio 0.305 - 0.315.
 NU = 0.31;
 
-% x = <100>, y = <010>, z = <001>
+% x = <110>, y = <1-10>, z = <001>
 dz = 8.711 / amag; % 8.711 microns
 dx = 3 * dz;
 dy = 2 * dz;
@@ -89,57 +89,45 @@ a = lmin/20;
 rann = lmin;
 rntol = lmin;
 rmax = 2*lmin;
-% rann = lmin;
-% rntol = lmin;
-% rmax = lmin;
 
 
-xmin = 0.2*dx;
-xmax = 0.2*dx;
-ymin = 0.5*dy;
-ymax = 0.5*dy;
-zmin = 0.5*dz;
-zmax = 0.5*dz;
+xmin = 0.1*dx;
+xmax = 0.9*dx;
+ymin = 0.1*dy;
+ymax = 0.9*dy;
+zmin = 0.1*dz;
+zmax = 0.9*dz;
+
+
+n1 = [1 0 0]; e1 = [1; 1; 0]; e1 = e1 / norm(e1);
+n2 = [0 1 0]; e2 = [1; -1; 0]; e2 = e2 / norm(e2);
+n3 = cross(n1, n2); e3 = cross(e1, e2); e3 = e3 / norm(e3);
+rotMatrix = [e1 e2 e3]';
+
+% rn(:, 1:3) = rn(:, 1:3) * rotMatrix';
+% links(:, 3:5) = links(:, 3:5) * rotMatrix';
+% links(:, 6:8) = links(:, 6:8) * rotMatrix';
 
 distRange = [xmin ymin zmin; xmax ymax zmax];
 displacement = distRange(1, :) + (distRange(2, :) - distRange(1, :)) .* rand(12, 3);
 links = [];
 rn = [];
-% 
-% % for i = 1:12
-% %     idx = (i-1)*8;
-% %     links = [links; (prismLinks((1:8)+idx, :) + idx) prismbVec((1:8)+idx, :) prismSlipPlane((1:8)+idx, :)];
-% %     displacedCoord = prismCoord((1:8)+idx, :)*segLen + displacement(i, :);
-% %     rn = [rn; displacedCoord [0;7;0;7;0;7;0;7]];
-% % end
 
-% % k = 1, 2 (high loading rate), 3 (low loading rate), 4, 5, 6, 7, 8, 9, 10, 11, 12 move for y < 0.5 dy
-% k = 0*8;
-% for i = 1:1
-%     idx = (i-1)*8;
-%     links = [links; (prismLinks((1:8) + k, :) + idx) prismbVec((1:8) + k, :) prismSlipPlane((1:8) + k, :)];
-%     displacedCoord = prismCoord((1:8) + k, :)*segLen + displacement(i, :);
-%     rn = [rn; displacedCoord [0;7;7;7;0;7;7;7]];
-% end
-
-
-% k = 1, 2 (high loading rate), 3 (low loading rate), 4, 5, 6, 7, 8, 9, 10, 11, 12 move for y < 0.5 dy
-k = 0*8;
-for i = 1:1
+for i = 1:12
     idx = (i-1)*8;
-    links = [links; (prismLinks((1:8) + k, :) + idx) prismbVec((1:8) + k, :) prismSlipPlane((1:8) + k, :)];
-    displacedCoord = prismCoord((1:8) + k, :)*segLen + displacement(i, :);
-    rn = [rn; displacedCoord [0;7;7;7;0;7;7;7]];
+    links = [links; (prismLinks((1:8)+idx, :) + idx) prismbVec((1:8)+idx, :)* rotMatrix' prismSlipPlane((1:8)+idx, :)* rotMatrix'];
+    displacedCoord = prismCoord((1:8)+idx, :)*segLen* rotMatrix' + displacement(i, :);
+    rn = [rn; displacedCoord [0;7;0;7;0;7;0;7]];
 end
 
+% for i = 1:12
+%     idx = (i-1)*8;
+%     links = [links; (shearLinks((1:8)+idx, :) + idx) shearbVec((1:8)+idx, :) shearSlipPlane((1:8)+idx, :)];
+%     displacedCoord = shearCoord((1:8)+idx, :)*segLen + displacement(i, :);
+%     rn = [rn; displacedCoord [0;7;0;7;0;7;0;7]];
+% end
+% displacedCoord(:, 2) = displacedCoord(:, 2) + -6*segLen;
 
-% % for i = 1:12
-% %     idx = (i-1)*8;
-% %     links = [links; (shearLinks((1:8)+idx, :) + idx) shearbVec((1:8)+idx, :) shearSlipPlane((1:8)+idx, :)];
-% %     displacedCoord = shearCoord((1:8)+idx, :)*segLen + displacement(i, :);
-% %     rn = [rn; displacedCoord [0;7;0;7;0;7;0;7]];
-% % end
-% % displacedCoord(:, 2) = displacedCoord(:, 2) + -6*segLen;
 
 
 plotnodes(rn,links,dx,vertices);
@@ -177,45 +165,44 @@ calculateTractions = @calculateAnalyticTractions;
 
 
 
-% % % u_dot = 0.01;
-% % % 
-% % % amag=sqrt(2)/2*amag;
-% % % maxconnections=4; 
+% % u_dot = 0.01;
+% % 
+% % amag=sqrt(2)/2*amag;
+% maxconnections=4; 
 % lmax =0.1/amag;
 % lmin = 0.04/amag;
 % areamin=lmin*lmin*sin(60/180*pi)*0.5; 
 % areamax=20*areamin; 
-% % % doremesh=1; %flat set to 0 or 1 that turns the remesh functions off or on
-% % % docollision=1; %flat set to 0 or 1 that turns collision detection off or on
-% % % doseparation=1; %flat set to 0 or 1 that turns splitting algorithm for highly connected node off or on
-% % % dovirtmesh=1; %flat set to 0 or 1 that turns remeshing of virtual nodes off or on
-% % % 
-% % % %Simulation time
-% % % % dt0=1E2;
-% % % % dt0=1e6*2048*100;
-% % % % 
-% % % % intSimTime = 0;
-% % % % simTime = 0;
-% % % % %dtplot=2E-9; %2ns
-% % % % % dtplot=5E4;
-% % % % % doplot=1; % frame recording: 1 == on, 0 == off
-% % % % totalSimTime = (2/amag)/(100*1E3*dx*(1E-4/160E9));
-% % % 
-% % % curstep = 0;
-% % % 
-% % % % a=lmin/sqrt(3)*0.5;
+% doremesh=1; %flat set to 0 or 1 that turns the remesh functions off or on
+% docollision=1; %flat set to 0 or 1 that turns collision detection off or on
+% doseparation=1; %flat set to 0 or 1 that turns splitting algorithm for highly connected node off or on
+% dovirtmesh=1; %flat set to 0 or 1 that turns remeshing of virtual nodes off or on
+% 
+% %Simulation time
+% % dt0=1E2;
+% % dt0=1e6*2048*100;
+% % 
+% % intSimTime = 0;
+% % simTime = 0;
+% % %dtplot=2E-9; %2ns
+% % % dtplot=5E4;
+% % % doplot=1; % frame recording: 1 == on, 0 == off
+% % totalSimTime = (2/amag)/(100*1E3*dx*(1E-4/160E9));
+% 
+% curstep = 0;
+% 
+% % a=lmin/sqrt(3)*0.5;
 % a=5;
 % Ec = MU/(4*pi)*log(a/0.1); 
 % rann = 4*a; 
 % rntol = 2*rann; % need to do convergence studies on all these parameters
 % rmax = 2*lmin;
-% % % % 
-% % % % %Plotting
-% % % plotFreq=20; 
-% % % % savefreq=20;
+% % 
+% % %Plotting
+% plotFreq=20; 
+% % savefreq=20;
 
 simName = date;
-simName = strcat(simName, '_1_tensile_Ni_100'); 
-% plotFreq = 5;
-% saveFreq = 1e9;
-% u_dot = dx/mumag/5000;
+simName = strcat(simName, '_1_tensile_Ni_110');
+
+

@@ -215,7 +215,7 @@ calculateTractions = @calculateAnalyticTractions;
 % % % % savefreq=20;
 
 simName = date;
-simName = strcat(simName, '_1_tensile_Ni_100'); 
-% plotFreq = 5;
-% saveFreq = 1e9;
-% u_dot = dx/mumag/5000;
+simName = strcat(simName, '_singleslip_tensile_ni_100'); 
+plotFreq = 5;
+saveFreq = 1e9;
+u_dot = dx/mumag/5000;

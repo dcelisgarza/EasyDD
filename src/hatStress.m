@@ -1,4 +1,4 @@
-function sigma = hatStress(uhat, nc, x, D, mx, mz, w, h, d, x0)
+function sigma = hatStress(uhat, nc, x, D, mx, my, mz, w, h, d, x0)
 
     % returns stress tensor at a point x=x0 by constructing B matrix B(x)
     % notes with mx=90 dx=6,dy=dz=1, agrees with S(1:5) agree with Abaqus to 1%
@@ -12,7 +12,7 @@ function sigma = hatStress(uhat, nc, x, D, mx, mz, w, h, d, x0)
     k = max(k, 1);
     p = i + (k - 1) * mx + (j - 1) * mx * mz;
 
-    if any(x0 < 0) || p > mx * mz * mz || isnan(p)
+    if any(x0 < 0) || p > mx * my * mz || isnan(p)
         % Sort of have to do this when using int_trapezium.m because real
         % segment will move out of domain during trial before it can be
         % remeshed?
