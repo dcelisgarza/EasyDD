@@ -303,6 +303,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
 
     /*look for unconnected links*/
     i = 0;
+    skipSegs = false;
     while (i < (links_length - 1))
     {
         flag1 = (int)round(flag[(int)round(links_c1[i]) - 1]);
@@ -461,6 +462,22 @@ void mexFunction(int nlhs, mxArray *plhs[],
                     }
                 }
                 /* Stop interfereing with remesh. 20/07/2020. */
+                
+                // Skip segments that collided and got separated immediately after.
+                for (s = 0; s < numLinksSkipped; s++){
+                    if (i + 1 == (int)round(s1Skip[s]) && j + 1 == (int)round(s2Skip[s]) || i + 1 == (int)round(s2Skip[s]) && j + 1 == (int)round(s1Skip[s])){
+                        skipSegs = true;
+                        break;
+                    }
+                    else {
+                        skipSegs = false;
+                    }
+                }
+                
+                if (skipSegs){
+                    j++;
+                    continue;
+                }
 
                 MinDistCalc(x0, x1, y0, y1, vx0, vx1, vy0, vy1, dist2, ddist2dt, L1, L2);
 
