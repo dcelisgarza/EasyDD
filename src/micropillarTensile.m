@@ -3,16 +3,38 @@ function [K, L, U, P_l, P_u, Sleft, Sright, Stop, Sbot, Sfront, Sback, Smixed, g
 
 
 Sleft = [S.left; S.topleft; S.botleft; S.frontleft; S.backleft; S.corners([1,3,5,7],:)];
+for i = 1:size(Sleft,1)
+    Sleft(i, 3:5) = [-1 0 0];
+end
+
 Sright = [S.right; S.topright; S.botright; S.frontright; S.backright];
+for i = 1:size(Sright,1)
+    Sright(i, 3:5) = [1 0 0];
+end
+
+for i = [2,4,6,8]
+    S.corners(i,3:5) = [1 0 0];
+end
+
 Stop = [S.top; S.topfront; S.topback];
+for i = 1:size(Stop,1)
+    Stop(i, 3:5) = [0 0 1];
+end
+
 Sbot = [S.bot; S.botfront; S.botback];
+for i = 1:size(Sbot,1)
+    Sbot(i, 3:5) = [0 0 -1];
+end
+
 Sfront = [S.front];
 Sback = [S.back];
 
-gammau = [Sleft; S.corners([1,3,5,7],:)];
-gammaMixed = [S.corners([2,4,6,8], :)];
-[~, gammatIdx] = setdiff(S.cat(:,1),[gammau(:,1); gammaMixed(:,1)]);
-gammat = S.cat(gammatIdx, :);
+srfSet = cat(1, Sleft, Sright, S.corners([2,4,6,8],:), Stop, Sbot, Sfront, Sback);
+
+gammau = Sleft;
+gammaMixed = S.corners([2,4,6,8], :);
+[~, gammatIdx] = setdiff(srfSet(:,1),[gammau(:,1); gammaMixed(:,1)]);
+gammat = srfSet(gammatIdx, :);
 
 Smixed = gammaMixed;
 

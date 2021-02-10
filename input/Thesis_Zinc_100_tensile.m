@@ -87,8 +87,8 @@ lmin = 0.1 / amag;
 lmax = 0.4 / amag;
 a = lmin/20;
 rann = lmin;
-rntol = 2*lmin;
-rmax = 2*lmin;
+rntol = lmin;
+rmax = lmin;
 % rann = lmin;
 % rntol = lmin;
 % rmax = lmin;
@@ -145,7 +145,7 @@ end
 
 plotnodes(rn,links,dx,vertices);
 dt0 = timeUnit;
-dtMin = timeUnit*1e-5;
+dtMin = timeUnit*1e-6;
 totalSimTime = timeUnit*1e4;
 mobility = @mobfcc0;
 saveFreq = 200;
@@ -179,10 +179,10 @@ calculateTractions = @calculateAnalyticTractions;
 
 
 
-% % % u_dot = 0.01;
-% % % 
-% % % amag=sqrt(2)/2*amag;
-% % % maxconnections=4; 
+% % u_dot = 0.01;
+% % 
+% % amag=sqrt(2)/2*amag;
+% % maxconnections=4; 
 % lmax =0.1/amag;
 % lmin = 0.04/amag;
 % areamin=lmin*lmin*sin(60/180*pi)*0.5; 
@@ -211,10 +211,10 @@ calculateTractions = @calculateAnalyticTractions;
 % rann = 4*a; 
 % rntol = 2*rann; % need to do convergence studies on all these parameters
 % rmax = 2*lmin;
-% % % % 
-% % % % %Plotting
-% % % plotFreq=20; 
-% % % % savefreq=20;
+% % % 
+% % % %Plotting
+% % plotFreq=20; 
+% % % savefreq=20;
 
 simName = date;
 simName = strcat(simName, '_1_tensile_Ni_100'); 

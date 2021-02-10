@@ -21,7 +21,6 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, dtMin, MU, NU, a, E
     exponent = 20; %Variable that controls the degree that the calculated error affects the cange in timestep
     dt_old_good = 0; %Logical which flags whether an acceptable timestep has been calculated
     convergent = 0; %Logical for the operation of the while loop
-    dtMinFlag = false;
     while (~convergent)
         rnvec1 = rnvec0 + vnvec0 * dt; %Euler forward method [Cai & Bulatov, eq. 10.43]
 
@@ -44,7 +43,6 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, dtMin, MU, NU, a, E
             break
         end
 
-        
         if (errmag < rntol) && (distmag < rmax)%If error and max distance move are in acceptable limits
             dt_old = dt; %Store current timestep as maximum acceptable timestep
             factor = maxchange * (1 / (1 + (maxchange^exponent - 1) * (errmag / rntol)))^(1 / exponent);
@@ -57,8 +55,7 @@ function [rn, vn, dt, fn, fseg] = int_trapezoid(rn, dt, dt0, dtMin, MU, NU, a, E
         elseif dt < dtMin
             counter = counter + 1;
             dt = dtMin;
-            dtMinFlag = true;
-        elseif dtMinFlag == true
+        elseif dt == dtMin
             counter = maxiter + 1;
         else
             dt = dt / 2; %If no acceptable timestep has been calculated, halve timestep and try again
