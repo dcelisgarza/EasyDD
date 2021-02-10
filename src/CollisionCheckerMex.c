@@ -39,7 +39,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
     double vx0[3], vx1[3], vy0[3], vy1[3];
     double dist2[1] = {0}, ddist2dt[1] = {0}, L1[1] = {0}, L2[1] = {0};
     int logic, flag1, flag2, remesh_flag;
-    int i, j, k;
+    int i, j, k, s;
     int link_col, link_row, nodenoti, linkid, tmp;
     const double eps = 1E-12;
     int connectivity_M, connectivity_N;
@@ -53,6 +53,9 @@ void mexFunction(int nlhs, mxArray *plhs[],
     double bi[3], ni[3], bj[3], nj[3];
     double xmid[3], ymid[3];
     double Lcr_temp2 = 0.0;
+    double *s1Skip;
+    double *s2Skip;
+    int numLinksSkipped;
     bool skipSegs = false;
     /********* MEX memory management *********/
     rn_x = (double *)mxGetPr(prhs[0]);
