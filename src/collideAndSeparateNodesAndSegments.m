@@ -6,10 +6,12 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collid
 
         % Collision detection and handling
         colliding_segments = 1;
-
+        
+        s1Skip = [];
+        s2Skip = [];
         while colliding_segments == 1
             [colliding_segments, n1s1, n2s1, n1s2, n2s2, floop, s1, s2, segpair] = CollisionCheckerMex(rnnew(:, 1), rnnew(:, 2), rnnew(:, 3), rnnew(:, end), ...
-                rnnew(:, 4), rnnew(:, 5), rnnew(:, 6), linksnew(:, 1), linksnew(:, 2), connectivitynew, rann,linksnew(:,3),linksnew(:,4),linksnew(:,5),linksnew(:,6),linksnew(:,7),linksnew(:,8));
+                rnnew(:, 4), rnnew(:, 5), rnnew(:, 6), linksnew(:, 1), linksnew(:, 2), connectivitynew, rann,linksnew(:,3),linksnew(:,4),linksnew(:,5),linksnew(:,6),linksnew(:,7),linksnew(:,8), s1Skip, s2Skip);
 
             if colliding_segments == 1%scan and update dislocation structure.
 
@@ -18,24 +20,26 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collid
                 elseif floop == 2
                     fprintf("Step %d. Links %d and %d colliding by hinge condition.\n", curstep, s1, s2)
                 end
+                
+                numNode = size(rnnew, 1);
+                numSeg = size(linksnew, 1);
 
                 if colliding_segments == 1
-                    [rnnew, linksnew, ~, ~, fsegnew, colliding_segments] = collision(rnnew, linksnew, connectivitynew, ...
+                    [rnnewTmp, linksnewTmp, ~, ~, fsegnewTmp, colliding_segments] = collision(rnnew, linksnew, connectivitynew, ...
                         linksinconnectnew, fsegnew, rann, MU, NU, a, Ec, mobility, vertices, rotMatrix, u_hat, nc, xnodes, ...
                         D, mx, my, mz, w, h, d, floop, n1s1, n2s1, n1s2, n2s2, s1, s2, segpair, lmin, CUDA_segseg_flag, Bcoeff);
 
                     %removing links with effective zero Burgers vectors
-                    [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = cleanupsegments(rnnew, linksnew, fsegnew);
+                    [rnnewTmp, linksnewTmp, connectivitynewTmp, linksinconnectnewTmp, fsegnewTmp] = cleanupsegments(rnnewTmp, linksnewTmp, fsegnewTmp);
                     
-                    numNode = size(rnnew, 1);
-                    numSeg = size(linksnew, 1);
-                    
-                    [rnnewTmp, linksnewTmp, connectivitynewTmp, linksinconnectnewTmp, fsegnewTmp] = separation(doseparation, rnnew, ...
-                        linksnew, connectivitynew, linksinconnectnew, fsegnew, mobility, rotMatrix, MU, NU, a, Ec, ...
+                    [rnnewTmp, linksnewTmp, connectivitynewTmp, linksinconnectnewTmp, fsegnewTmp] = separation(doseparation, rnnewTmp, ...
+                        linksnewTmp, connectivitynewTmp, linksinconnectnewTmp, fsegnewTmp, mobility, rotMatrix, MU, NU, a, Ec, ...
                         2 * rann, vertices, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_segseg_flag, Bcoeff); 
                     numNodeTmp = size(rnnewTmp, 1);
                     numSegTmp = size(linksnewTmp, 1);
                     if numNodeTmp == numNode && numSegTmp == numSeg% || numNodeTmp == numNode - 1 && numSegTmp == numSeg - 1
+                        s1Skip = [s1Skip; s1];
+                        s2Skip = [s2Skip; s2];
                         continue
                     else
                         rnnew = rnnewTmp;
@@ -43,6 +47,8 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collid
                         connectivitynew = connectivitynewTmp;
                         linksinconnectnew = linksinconnectnewTmp;
                         fsegnew = fsegnewTmp;
+                        s1Skip = [];
+                        s2Skip = [];
                     end
 
                 end

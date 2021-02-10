@@ -53,6 +53,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
     double bi[3], ni[3], bj[3], nj[3];
     double xmid[3], ymid[3];
     double Lcr_temp2 = 0.0;
+    bool skipSegs = false;
     /********* MEX memory management *********/
     rn_x = (double *)mxGetPr(prhs[0]);
     rn_y = (double *)mxGetPr(prhs[1]);
@@ -71,6 +72,9 @@ void mexFunction(int nlhs, mxArray *plhs[],
     plane_x = (double *)mxGetPr(prhs[14]);
     plane_y = (double *)mxGetPr(prhs[15]);
     plane_z = (double *)mxGetPr(prhs[16]);
+    s1Skip = (double *)mxGetPr(prhs[17]);
+    s2Skip = (double *)mxGetPr(prhs[18]);
+    numLinksSkipped = mxGetNumberOfElements(prhs[17]);
     rn_length = mxGetNumberOfElements(prhs[0]);
     links_length = mxGetNumberOfElements(prhs[7]);
 
@@ -153,6 +157,23 @@ void mexFunction(int nlhs, mxArray *plhs[],
             while (k <= (int)round(connectivity[0][i]) - 1 /*correct for matlab indexing*/)
             {
                 linkid = (int)round(connectivity[2 * k + 1][i]) - 1; /*correct for matlab indexing*/
+                
+                // Skip segments that collided and got separated immediately after.
+                for (s = 0; s < numLinksSkipped; s++){
+                    if (linkid + 1 == (int)round(s1Skip[s]) && link_row + 1 == (int)round(s2Skip[s]) || linkid + 1 == (int)round(s2Skip[s]) && link_row + 1 == (int)round(s1Skip[s])){
+                        skipSegs = true;
+                        break;
+                    }
+                    else {
+                        skipSegs = false;
+                    }
+                }
+                
+                if (skipSegs){
+                    k++;
+                    continue;
+                }
+                
                 if (j != k)
                 {
                     n1s1_int = (int)round(links_c1[linkid]) - 1; /*correct for matlab indexing*/
