@@ -37,9 +37,20 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collid
                         2 * rann, vertices, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_segseg_flag, Bcoeff); 
                     numNodeTmp = size(rnnewTmp, 1);
                     numSegTmp = size(linksnewTmp, 1);
-                    if numNodeTmp == numNode && numSegTmp == numSeg% || numNodeTmp == numNode - 1 && numSegTmp == numSeg - 1
+                    if numNodeTmp == numNode && numSegTmp == numSeg % || numNodeTmp == numNode - 1 && numSegTmp == numSeg - 1
                         s1Skip = [s1Skip; s1];
                         s2Skip = [s2Skip; s2];
+                        
+                        if size(s1Skip, 1) > 1 && (s1 == s1Skip(end) && s2 == s2Skip(end) || s2 == s1Skip(end) && s1 == s2Skip(end))
+                            rnnew = rnnewTmp;
+                            linksnew = linksnewTmp;
+                            connectivitynew = connectivitynewTmp;
+                            linksinconnectnew = linksinconnectnewTmp;
+                            fsegnew = fsegnewTmp;
+                            s1Skip = [];
+                            s2Skip = [];
+                        end
+                        
                         continue
                     else
                         rnnew = rnnewTmp;
