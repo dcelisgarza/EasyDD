@@ -1,6 +1,3 @@
-% Results in strain-stress
-% Stress := load/area = Fsim/area of cantilever face
-% Strain := displacement/length = Usim/cantilever length
 clear all;
 close all;
 CRYSTAL_STRUCTURE = 'fcc';
@@ -37,19 +34,28 @@ bVec = [
 % Values from https://www.azom.com/properties.aspx?ArticleID=2193
 % Nickel lattice parameter: 3.499 Angstroms
 amag = 3.499 * 1e-4; % microns * burgers vector
+
 % Nickel shear modulus: 72 - 86 GPa
 mumag = 79e3; % MPa
 MU = 1.0;
+
 % Nickel poisson's ratio 0.305 - 0.315.
 NU = 0.31;
 
 % x = <100>, y = <010>, z = <001>
-% 10 x 10 cross sectional area.
-% yield strength point
-% 13 dln/m^2, 10/ micron^2
-dz = 8.711 / amag; % 8.711 microns
-dx = 3 * dz;
-dy = 2 * dz;
+% FE domain dimensions: x/amag := x microns.
+dz = 1 / amag;
+dx = dz;
+dy = dz;
+
+% Dislocation segment lengths.
+segLen = 0.1 / amag; % Source segment length.
+lmin = segLen/5;
+lmax = segLen;
+a = lmin/20;
+rann = lmin/2;
+rntol = lmin;
+rmax = lmin;
 
 vertices = [0, 0, 0; ...
             dx, 0, 0; ...
@@ -59,43 +65,29 @@ vertices = [0, 0, 0; ...
             dx, 0, dz; ...
             0, dy, dz; ...
             dx, dy, dz];
-% u_dot = [m]/MPa, u_dot_real = [m]/[s]
-% mumag*1e6 converts the meters to micrometers in the units.
-% The experimental displacement rate is 5 nm = 5e-3 micrometers.
-% The cantilever is dx micrometers long.
-timeUnit = 5e-3*(mumag*1e6);%/dx;
+
+% Loading rate.
+% time_real = time_EasyDD / mumag / 1e6;
+% If we were to use the same loading rate we'd be loading at
+% 5e-3/mumag/1e6 \approx 6.3291e-14. This is untractable. Instead we scale
+% with a heuristic and using beam theory.
+timeUnit = 5e-3*mumag*1e6;
 u_dot = dx/timeUnit;
-% u_dot = 5e-3;
-% u_dot = dx/mumag;
 
-% This is the proper plotting function.
-% plot(Usim(1:curstep-1)/mumag/1e6,Fsim(1:curstep-1)*amag^2*mumag/1e6/1e6)
-% This is the simulation time in seconds
-% simTime/timeUnit
-% plotArgs = struct("factDisp", 1/mumag/1e6, "factForce", 1/1e12);
+% Set scaling factors for plotting the displacements and force.
 plotArgs = struct("factDisp", 1, "factForce", 1);
-% dt_real = dt_ddlab/(mumag*1e6);
 
-% u_dot = 5e-3;
-% u_dot = 10;
+% 1 := tensile, -1 := compressive
 sign_u_dot = 1;
+
+% Sets boundary conditions and simulation type.
 loading = @displacementControlMicropillarTensile;
 simType = @micropillarTensile;
 
+% Precomputed FCC loops with 4 sides.
 run fccLoops
 prismbVec(:, :) = prismbVec(:, :) / max(abs(prismbVec(1, :)));
 prismbVec(:, :) = prismbVec(:, :) * norm(prismbVec(1, :));
-segLen = 0.5 / amag;
-lmin = 0.1 / amag;
-lmax = 0.4 / amag;
-a = lmin/20;
-rann = lmin/2;
-rntol = lmin;
-rmax = lmin;
-% rann = lmin;
-% rntol = lmin;
-% rmax = lmin;
-
 
 xmin = 0.1*dx;
 xmax = 0.9*dx;

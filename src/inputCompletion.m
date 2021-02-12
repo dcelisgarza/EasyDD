@@ -129,12 +129,12 @@ if ~exist('lmin', 'var')
 end
 
 if ~exist('areamin', 'var')
-    areamin = lmin * lmin * sin(60/180 * pi) * 0.5;
+    areamin = lmin * lmin * 0.5;
     fprintf('Providing default value for areamin = %f.\n', areamin)
 end
 
 if ~exist('areamax', 'var')
-    areamax = 20 * areamin;
+    areamax = max(4*sind(45)*lmax^2/2, 1.2*areamin);%lmax * lmax * 0.5;%20 * areamin;
     fprintf('Providing default value for areamax = %f.\n', areamax)
 end
 
@@ -200,7 +200,7 @@ if ~exist('Ec', 'var')
 end
 
 if ~exist('rann', 'var')
-    rann = 0.9 * lmin;
+    rann = lmin/2;%0.9 * lmin;
     fprintf('Providing default value for rann = %f.\n', rann)
 end
 
