@@ -58,7 +58,7 @@
 run inputCompletion.m
 
 % Compile mex files.
-% CUDA_flag = compileCode(CUDA_flag);
+CUDA_flag = compileCode(CUDA_flag);
 
 % Cleanup input structures.
 [rn, links] = cleanupnodes(rn, links);
@@ -100,7 +100,7 @@ plotFEMDomain(Stop, Sbot, Sright, Sleft, Sfront, Sback, Smixed, xnodes)
 u_tilda_0 = calculateUtilda(rn, links, gamma_disp, NU, xnodes, dx, ...
     dy, dz, mx, my, mz, u_tilda_0);
 close all
-% save(sprintf('../output/initial_%s_%d', simName, curstep), 'K','kg','L','U','P_l','P_u');
+save(sprintf('../output/initial_%s_%d', simName, curstep), 'K','kg','L','U','P_l','P_u');
 
 fprintf('Initialisation complete.\n');
 %%
@@ -156,7 +156,7 @@ while simTime < totalSimTime
 
     rnnew = fixBlockadingNodes(rnnew, connectivitynew);
 
-    [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = separation(doseparation, rnnew, ...
+    [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew, ~] = separation(doseparation, rnnew, ...
         linksnew, connectivitynew, linksinconnectnew, fsegnew, mobility, rotMatrix, MU, NU, a, Ec, ...
         2 * rann, vertices, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_segseg_flag, Bcoeff);
 

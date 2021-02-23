@@ -337,8 +337,9 @@ function [rnnew] = movetosurf(rnnew, ~, i, vertices)
     vec = rnnew(i, 4:6);
 
     if norm(vec) < eps
-        fprintf('Error moving exited node back to surface. See movetosurf in remesh_surf')
-        pause
+        vec = [eps, eps, eps];
+%         fprintf('Error moving exited node back to surface. See movetosurf in remesh_surf')
+%         pause
     end
 
     vec = vec / norm(vec);
