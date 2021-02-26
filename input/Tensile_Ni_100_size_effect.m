@@ -48,7 +48,7 @@ NU = 0.31;
 % The size effect is given by the size disparity between dislocations and
 % volume. We can either change the size of the volume or the size of the
 % dislocations. 2^3, 4^3, 8^3, 16^3, 32^3 micron domain.
-dx = 2 / amag; % This gives microns.
+dx = 32 / amag; % This gives microns.
 dy = dx;
 dz = dx;
 mx = 20;
@@ -60,9 +60,9 @@ segLen = 0.5 / amag; % Source segment length.
 lmin = segLen / 10; % Minimum allowed segment length.
 lmax = segLen / 5; % Maximum allowed segment length.
 a = lmin / 20; % Dislocation core radius (for non-singular stresses).
-rann = lmin / 2; % Collision distance between two dislocations.
-rntol = lmin / 2; % Error tolerance between one step to the next.
-rmax = lmin / 2; % Maximum change in position between one step to the next.
+rann = lmin/2;%lmin/2; % Collision distance between two dislocations.
+rntol = lmin/2; % Error tolerance between one step to the next.
+rmax = lmin/2; % Maximum change in position between one step to the next.
 
 vertices = [0, 0, 0; ...
             dx, 0, 0; ...
@@ -132,8 +132,8 @@ dt0 = timeUnit;
 dtMin = 10 * eps; % Minimum allowed timestep.
 totalSimTime = timeUnit * 1e4; % Total simulated time.
 mobility = @mobfcc0; % Mobility law.
-saveFreq = 1000; % Saving frequency (steps between saves).
-plotFreq = 1000; % Plotting frequency (steps between plotting).
+saveFreq = 200; % Saving frequency (steps between saves).
+plotFreq = 1e9; % Plotting frequency (steps between plotting).
 
 % Set scaling factors for plotting the displacements and force.
 plotArgs = struct("factDisp", amag, "factForce", amag^2*mumag);

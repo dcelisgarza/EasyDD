@@ -1,4 +1,4 @@
-function [vn, fn] = mobfcc0_110(fseg, rn, links, connectivity, nodelist, conlist, Bcoeff)
+function [vn, fn] = mobfcc0_110(fseg, rn, links, connectivity, nodelist, conlist, Bcoeff, ~)
     %mobility law function (model: FCC0)
 
     %Drag (Mobility) parameters (should be specified by Input file)

@@ -136,7 +136,7 @@ rn = [];
 
 for j = 1:n
     for i = 1:lenIdxs
-        idx = (i-1)*8 + (j-1)*64;
+        idx = (i-1)*8 + (j-1)*8*lenIdxs;
         idx2 = (idxs(i)-1)*8;
         links = [links; (prismLinks((1:8)+idx2, :) + idx) prismbVec((1:8)+idx2, :) prismSlipPlane((1:8)+idx2, :)];
         displacedCoord = prismCoord((1:8)+idx2, :)*segLen + displacement(i + (j-1)*lenIdxs, :);
