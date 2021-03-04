@@ -72,7 +72,8 @@ u_dot = dx/timeUnit;
 % plot(Usim(1:curstep-1)/mumag/1e6,Fsim(1:curstep-1)*amag^2*mumag/1e6/1e6)
 % This is the simulation time in seconds
 % simTime/timeUnit
-% plotArgs = struct("factDisp", 1/mumag/1e6, "factForce", 1/1e12);
+
+% displacement in microns, load in micronewtons
 plotArgs = struct("factDisp", amag, "factForce", amag^2*mumag);
 % dt_real = dt_ddlab/(mumag*1e6);
 

@@ -17,8 +17,8 @@ function [f_bar, f_hat, f_tilda, u_bar, u_hat, u_tilda, r_hat] = FEM_DDD_Superpo
         simTime, holdingTime, gamma_mixed);
 
     % Calculate adjusted U_tilda.
-    u_tilda = calculateUtilda(rn, links, gamma_disp, NU, xnodes, dx, ...
-        dy, dz, mx, my, mz, u_tilda) - u_tilda_0;
+%     u_tilda = calculateUtilda(rn, links, gamma_disp, NU, xnodes, dx, ...
+%         dy, dz, mx, my, mz, u_tilda) - u_tilda_0;
 
     u_hat(fixedDofs) = u(fixedDofs) - u_tilda(fixedDofs);
 

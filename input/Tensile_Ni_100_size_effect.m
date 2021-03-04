@@ -60,7 +60,7 @@ segLen = 0.5 / amag; % Source segment length.
 lmin = segLen / 10; % Minimum allowed segment length.
 lmax = segLen / 5; % Maximum allowed segment length.
 a = lmin / 20; % Dislocation core radius (for non-singular stresses).
-rann = lmin/2;%lmin/2; % Collision distance between two dislocations.
+rann = lmin;%lmin/2; % Collision distance between two dislocations.
 rntol = lmin/2; % Error tolerance between one step to the next.
 rmax = lmin/2; % Maximum change in position between one step to the next.
 
@@ -80,7 +80,7 @@ vertices = [0, 0, 0; ...
 % with a heuristic and using beam theory.
 % timeUnit = 5e-3 * mumag * 1e6;
 timeUnit = 5e-3*mumag * 1e6;
-u_dot = 10*dx / timeUnit;
+u_dot = dx / timeUnit;
 % 1 := tensile, -1 := compressive
 sign_u_dot = 1;
 
@@ -133,7 +133,7 @@ dtMin = 10 * eps; % Minimum allowed timestep.
 totalSimTime = timeUnit * 1e4; % Total simulated time.
 mobility = @mobfcc0; % Mobility law.
 saveFreq = 200; % Saving frequency (steps between saves).
-plotFreq = 1e9; % Plotting frequency (steps between plotting).
+plotFreq = 10; % Plotting frequency (steps between plotting).
 
 % Set scaling factors for plotting the displacements and force.
 plotArgs = struct("factDisp", amag, "factForce", amag^2*mumag);
