@@ -143,6 +143,16 @@ if ~exist('doremesh', 'var')
     fprintf('Providing default value for doremesh = %d.\n', doremesh)
 end
 
+if ~exist('noExitNorm', 'var')
+    noExitNorm = [-1 0 0];
+    fprintf('Providing default value for noExitNorm = [%d, %d, %d].\n', noExitNorm)
+end
+
+if ~exist('noExitPoint', 'var')
+    noExitPoint = [0 0 0];
+    fprintf('Providing default value for noExitPoint = [%d, %d, %d].\n', noExitPoint)
+end
+
 if ~exist('docollision', 'var')
     docollision = 1; %flat set to 0 or 1 that turns collision detection off or on
     fprintf('Providing default value for docollision = %d.\n', docollision)
