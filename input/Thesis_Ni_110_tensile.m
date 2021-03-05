@@ -66,7 +66,7 @@ vertices = [0, 0, 0; ...
 simDisp = 5e-3/amag; % 5 nanometers
 timeSim = 1 * (mumag*1e6)/1e-4; % timeSim = timeReal * ||mu|| / B
 u_dotSimFromReal = simDisp/timeSim;
-tmpScale = 1e9;% 5*1e8
+tmpScale = 1e10;% 5*1e8
 
 u_dot = u_dotSimFromReal*tmpScale;
 timeUnit = timeSim/tmpScale*1000;
