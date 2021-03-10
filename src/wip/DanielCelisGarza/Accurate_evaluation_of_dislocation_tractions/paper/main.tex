@@ -49,7 +49,7 @@ Coupling discrete dislocation dynamics (DDD) to the finite element method (FEM) 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{fem_ddd.pdf}
-    \caption[Superposition Model for DDD-FEM coupling.]{The superposition used to couple DDD and FEM. The volume $V$ is bounded by a surface $S = S_{T} \cup S_{U}$ and contains a dislocation ensemble and is subjected to tractions $\vec{T}$ on $S_{T}$ and $\vec{u}$ on $S_{u}$. First, the traction, $\vec{\tilde{T}}$, and displacement, $\vec{\tilde{u}}$, fields due to the dislocations in the infinite domain (DDD) are evaluated on the boundaries $S_{T}$ and $S_{U}$ respectively. Then an elastic boundary value problem can be solved with FEM to calculate the corrective elastic fields required to satisfy the boundary conditions $\vec{\hat{T}} = \vec{T} - \vec{\tilde{T}}$ and $\vec{\hat{u}} = \vec{U} - \vec{\tilde{U}}$.}
+    \caption[Superposition Model for DDD-FEM coupling.]{The superposition used to couple DDD and FEM. The volume $V$ is bounded by a surface $S = S_{T} \cup S_{U}$ and contains a dislocation ensemble and is subjected to tractions $\vec{T}$ on $S_{T}$ and $\vec{U}$ on $S_{u}$. First, the traction, $\vec{\tilde{T}}$, and displacement, $\vec{\tilde{u}}$, fields due to the dislocations in the infinite domain (DDD) are evaluated on the boundaries $S_{T}$ and $S_{U}$ respectively. Then an elastic boundary value problem can be solved with FEM to calculate the corrective elastic fields required to satisfy the boundary conditions $\vec{\hat{T}} = \vec{T} - \vec{\tilde{T}}$ and $\vec{\hat{u}} = \vec{U} - \vec{\tilde{u}}$.}
     \label{f:superposition_scheme}
 \end{figure}
 
@@ -67,7 +67,7 @@ Specifically, a linear-elastic solid $V$ bounded by a surface $S$ is subjected t
     %
      & \left.
     \begin{array}{l}
-        \vec{\tilde{u}} = U, \quad t>0 \\
+        \vec{\tilde{u}} = \vec{U}, \quad t>0 \\
         \vec{\tilde{u}} = \vec{0}, \quad t=0
         \label{eq:utildebc}
     \end{array}
