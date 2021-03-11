@@ -378,7 +378,7 @@ if ~exist('dt', 'var')
 end
 
 if ~exist('dtMin', 'var')
-    dtMin = dt0*1e-6;
+    dtMin = 10*eps;
     fprintf('Providing default value for dtMin = %f.\n', dtMin)
 end
 

@@ -11,13 +11,17 @@ function [segments, index] = constructsegmentlist(rn, links, novirtsegs)
         n1 = links(i, 2);
 
         if ((n0 ~= 0) && (n1 ~= 0))
-
-            if novirtsegs == true && (rn(n0, end) == 67 || rn(n1, end) == 67)
+            
+            rn0 = rn(n0, :);
+            rn1 = rn(n1, :);
+            tVec = rn0(1:3) - rn1(1:3);
+            
+            if novirtsegs == true && (rn0(end) == 67 || rn1(end) == 67) || dot(tVec, tVec) < eps
                 continue
             end
 
             nseg = nseg + 1;
-            segments(nseg, :) = [links(i, 1:5), rn(n0, 1:3), rn(n1, 1:3), links(i, 6:8)];
+            segments(nseg, :) = [links(i, 1:5), rn0(1:3), rn1(1:3), links(i, 6:8)];
             index(i) = true;
         end
 

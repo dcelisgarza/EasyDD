@@ -65,7 +65,7 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = ...
                 % outside.
                 if D > 0
                     rnnew(n, 1:3) = rnnew(n, 1:3) - D * noExitNorm(i, :);
-                    rnnew(n, end) = 7;%61;
+                    rnnew(n, end) = 7;%7;%61;
                 end
             end
         end

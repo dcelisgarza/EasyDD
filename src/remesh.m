@@ -30,7 +30,7 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = meshco
 
     while i <= length(rnnew(:, 1))
 
-        if (connectivitynew(i, 1) == 2) && (rnnew(i, end) == 0)%remesh only real
+        if connectivitynew(i, 1) == 2 && rnnew(i, end) == 0%remesh only real
             % the discretization node is normal so set up the conditions to check for whether is should be coarsened away
             link1 = connectivitynew(i, 2);
             link2 = connectivitynew(i, 4);

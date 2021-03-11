@@ -66,7 +66,7 @@ vertices = [0, 0, 0; ...
 simDisp = 5e-3/amag; % 5 nanometers
 timeSim = 1 * (mumag*1e6)/1e-4; % timeSim = timeReal * ||mu|| / B
 u_dotSimFromReal = simDisp/timeSim;
-tmpScale = 1e10;% 5*1e8
+tmpScale = 5e6;% 1e6, 5e6
 
 u_dot = u_dotSimFromReal*tmpScale;
 timeUnit = timeSim/tmpScale*1000;
@@ -76,8 +76,7 @@ timeUnit = timeSim/tmpScale*1000;
 % This is the simulation time in seconds
 % simTime/timeUnit
 
-% displacement in microns, load in micronewtons
-plotArgs = struct("factDisp", amag, "factForce", amag^2*mumag);
+
 % dt_real = dt_ddlab/(mumag*1e6);
 
 % u_dot = 5e-3;
@@ -88,15 +87,19 @@ simType = @micropillarTensile;
 
 run fccLoops
 prismbVec(:, :) = prismbVec(:, :) / max(abs(prismbVec(1, :)));
-prismbVec(:, :) = prismbVec(:, :) * norm(prismbVec(1, :));
-segLen = 0.2 / amag;
-lmin = 0.1 / amag;
-lmax = 0.4 / amag;
+% prismbVec(:, :) = prismbVec(:, :) * norm(prismbVec(1, :));
+yieldStressExp = 183; %units units of mumag
+segLen = 2*mumag*norm(prismbVec(1, 1:3))/yieldStressExp;
+% segLen = 0.4 / amag;
+% lmin = 0.2 / amag;
+% lmax = 0.8 / amag;
+lmin = segLen/2;
+lmax = segLen*2;
 
-a = lmin/20;
+a = lmin/10;
 rann = lmin;%lmin/2;
-rntol = 3*lmin^2;
-rmax = 3*lmin^2;%lmin/2;
+rntol = lmin/2;
+rmax = lmin/2;%lmin/2;
 
 
 xmin = 0.1*dx;
@@ -109,7 +112,6 @@ zmax = 0.9*dz;
 
 idxs = [1; 2; 4; 5; 7; 9; 10; 12];
 
-
 lenIdxs = size(idxs,1);
 
 activeRatio = lenIdxs/12;
@@ -121,7 +123,7 @@ volumePerSource = (2*segLen)^3;
 volumeSources = numSources * volumePerSource;
 
 n = ceil(numSources/8);
-
+n=1;
 distRange = [xmin ymin zmin; xmax ymax zmax];
 displacement = distRange(1, :) + (distRange(2, :) - distRange(1, :)) .* rand(n*lenIdxs, 3);
 links = [];
@@ -154,9 +156,11 @@ totalSimTime = timeUnit*1e4;
 mobility = @mobfcc0;
 % rotMatrix = rotMatrix';
 % mobility = @mobfcc0;
-saveFreq = 5;
-plotFreq = 1e9;
+saveFreq = 100;
+plotFreq = 20;
 
+% displacement in microns, load in micronewtons
+plotArgs = struct("factDisp", amag/(dx*amag), "factForce", (amag*1e-6)^2*mumag/(dz*amag*1e-6*dy*amag*1e-6));
 plotFlags = struct('nodes', true, 'secondary', true);
 
 % Pa s b^(-1)
@@ -170,7 +174,7 @@ calculateTractions = @calculateAnalyticTractions;
 % calculateTractions = @calculateNumericTractions;
 
 
-CUDA_flag = true;
+CUDA_flag = false;
 % para_scheme = 1;
 
 
@@ -224,4 +228,9 @@ CUDA_flag = true;
 
 simName = date;
 simName = strcat(simName, sprintf('_%d_tensile_ni_100', n*lenIdxs));
+
+noExitNorm = [-1 0 0;
+                1 0 0];
+noExitPoint = [0 0 0;
+            dx dy dz];
 

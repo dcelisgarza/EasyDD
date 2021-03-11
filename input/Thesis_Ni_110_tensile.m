@@ -146,7 +146,8 @@ numSources = activeDlnDensity / intersectPerSource;
 volumePerSource = (2*segLen)^3;
 volumeSources = numSources * volumePerSource;
 
-n = ceil(numSources/8);
+n = ceil(numSources/16);
+n = 1;
 
 distRange = [xmin ymin zmin; xmax ymax zmax];
 displacement = distRange(1, :) + (distRange(2, :) - distRange(1, :)) .* rand(n*lenIdxs, 3);
