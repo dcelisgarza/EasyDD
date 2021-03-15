@@ -159,7 +159,9 @@ mobility = @mobfcc0;
 saveFreq = 100;
 plotFreq = 20;
 
-% displacement in microns, load in micronewtons
+% displacement (um), load (N)
+% plotArgs("factDisp", amag, "factForce", (amag*1e-6)^2*mumag*1e6));
+% displacement strain (um/um), stress (MPa)
 plotArgs = struct("factDisp", amag/(dx*amag), "factForce", (amag*1e-6)^2*mumag/(dz*amag*1e-6*dy*amag*1e-6));
 plotFlags = struct('nodes', true, 'secondary', true);
 

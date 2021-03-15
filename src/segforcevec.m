@@ -44,7 +44,6 @@ function [fseg_tot] = segforcevec(MU, NU, a, Ec, rn, links, linkid, ~, ...
 
         %remote force due to remote stress, real segments
         [fr0, fr1] = remoteforcevec(MU, NU, a, segments, 0, CUDA_flag);
-
         %PK force due to image stress
 
         fseg = [fpk, fpk] * 0.5 + [fs0, fs1] + [fr0, fr1]; %combine all force contributions
