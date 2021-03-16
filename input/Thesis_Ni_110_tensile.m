@@ -89,12 +89,15 @@ run fccLoops
 prismbVec(:, :) = prismbVec(:, :) / max(abs(prismbVec(1, :)));
 % prismbVec(:, :) = prismbVec(:, :) * norm(prismbVec(1, :));
 yieldStressExp = 158; %units units of mumag
+yieldStressExp = 83; %units units of mumag
 segLen = 2*mumag*norm(prismbVec(1, 1:3))/yieldStressExp;
 % segLen = 0.2 / amag;
 % lmin = 0.1 / amag;
 % lmax = 0.4 / amag;
 lmin = segLen/2;
 lmax = segLen*2;
+lmin = segLen/4;
+lmax = segLen;
 
 a = lmin/20;
 rann = lmin;%lmin/2;
@@ -256,3 +259,7 @@ CUDA_flag = false;
 simName = date;
 simName = strcat(simName, sprintf('_%d_tensile_ni_110', n*lenIdxs));
 
+noExitNorm = [-1 0 0;
+                1 0 0];
+noExitPoint = [0 0 0;
+            dx dy dz];
