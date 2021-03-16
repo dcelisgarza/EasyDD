@@ -1,4 +1,4 @@
-function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, collided] = collision(...
+function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, PowerPreCollision, mergednodeid] = collision(...
         rn, links, connectivity, linksinconnect, fseg, mindist, MU, NU, a, Ec, mobility, vertices, rotMatrix, ...
         uhat, nc, xnodes, D, mx, my, mz, w, h, d, floop, n1s1, n2s1, n1s2, n2s2, s1, s2, ~, lmin, CUDA_flag, Bcoeff)
     %floop to know wich loop has to be run
@@ -104,11 +104,11 @@ function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, col
 
             if colliding_segments == 1
                 %% Power dissipation.
-                rnOld = rn;
-                connectivityOld = connectivity;
-                linksOld = links;
-                linksinconnectOld = linksinconnect;
-                fsegOld = fseg;
+%                 rnOld = rn;
+%                 connectivityOld = connectivity;
+%                 linksOld = links;
+%                 linksinconnectOld = linksinconnect;
+%                 fsegOld = fseg;
 
                 ft = zeros(2, 3);
 
@@ -129,8 +129,8 @@ function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, col
                     ft(2, :) = ft(2, :) + fseg(linkid, 3 * (pos - 1) + 1:3 * (pos));
                 end
 
-                Powermax = 1.05 * rn(mergenode1, 4:6) * ft(1, :)';
-                Powermax = Powermax + 1.05 * rn(mergenode2, 4:6) * ft(2, :)';
+                PowerPreCollision = 1.05 * rn(mergenode1, 4:6) * ft(1, :)';
+                PowerPreCollision = PowerPreCollision + 1.05 * rn(mergenode2, 4:6) * ft(2, :)';
 
                 %%
                 collisionpoint = findcollisionpoint(mergenode1, mergenode2, rn, connectivity, links);
@@ -149,22 +149,22 @@ function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, col
 
                     numbcon = connectivity(mergednodeid, 1);
                     conlist = [numbcon linspace(1, numbcon, numbcon)];
-                    [rn(mergednodeid, 4:6), fntmp] = mobility(fseg, rn, links, connectivity, mergednodeid, conlist, Bcoeff, rotMatrix);
+                    [rn(mergednodeid, 4:6), ~] = mobility(fseg, rn, links, connectivity, mergednodeid, conlist, Bcoeff, rotMatrix);
 
-                    % Find power dissipation of new connected structure.
-                    Powertest = rn(mergednodeid, 4:6) * fntmp';
-
-                    % Only perform collision if it dissipates more power than not colliding.
-                    if Powermax < Powertest
-                        collided = true;
-                    else
-                        rn = rnOld;
-                        connectivity = connectivityOld;
-                        links = linksOld;
-                        linksinconnect = linksinconnectOld;
-                        fseg = fsegOld;
-                        collided = false;
-                    end
+%                     % Find power dissipation of new connected structure.
+%                     Powertest = rn(mergednodeid, 4:6) * fntmp';
+% 
+%                     % Only perform collision if it dissipates more power than not colliding.
+%                     if Powermax < Powertest
+%                         collided = true;
+%                     else
+%                         rn = rnOld;
+%                         connectivity = connectivityOld;
+%                         links = linksOld;
+%                         linksinconnect = linksinconnectOld;
+%                         fseg = fsegOld;
+%                         collided = false;
+%                     end
 
                 end
 
@@ -260,11 +260,11 @@ function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, col
             end
 
             %% Power dissipation.
-            rnOld = rn;
-            connectivityOld = connectivity;
-            linksOld = links;
-            linksinconnectOld = linksinconnect;
-            fsegOld = fseg;
+%             rnOld = rn;
+%             connectivityOld = connectivity;
+%             linksOld = links;
+%             linksinconnectOld = linksinconnect;
+%             fsegOld = fseg;
 
             ft = zeros(2, 3);
 
@@ -285,8 +285,8 @@ function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, col
                 ft(2, :) = ft(2, :) + fseg(linkid, 3 * (pos - 1) + 1:3 * (pos));
             end
 
-            Powermax = 1.05 * rn(mergenode1, 4:6) * ft(1, :)';
-            Powermax = Powermax + 1.05 * rn(mergenode2, 4:6) * ft(2, :)';
+            PowerPreCollision = 1.05 * rn(mergenode1, 4:6) * ft(1, :)';
+            PowerPreCollision = PowerPreCollision + 1.05 * rn(mergenode2, 4:6) * ft(2, :)';
 
             %%
             %merge the two nodes
@@ -306,22 +306,22 @@ function [rn, links, connectivity, linksinconnect, fseg, colliding_segments, col
 
                 numbcon = connectivity(mergednodeid, 1);
                 conlist = [numbcon linspace(1, numbcon, numbcon)];
-                [rn(mergednodeid, 4:6), fntmp] = mobility(fseg, rn, links, connectivity, mergednodeid, conlist, Bcoeff, rotMatrix);
+                [rn(mergednodeid, 4:6), ~] = mobility(fseg, rn, links, connectivity, mergednodeid, conlist, Bcoeff, rotMatrix);
 
-                % Find power dissipation of new connected structure.
-                Powertest = rn(mergednodeid, 4:6) * fntmp';
-
-                % Only perform collision if it dissipates more power than not colliding.
-                if Powermax < Powertest
-                    collided = true;
-                else
-                    rn = rnOld;
-                    connectivity = connectivityOld;
-                    links = linksOld;
-                    linksinconnect = linksinconnectOld;
-                    fseg = fsegOld;
-                    collided = false;
-                end
+%                 % Find power dissipation of new connected structure.
+%                 Powertest = rn(mergednodeid, 4:6) * fntmp';
+% 
+%                 % Only perform collision if it dissipates more power than not colliding.
+%                 if Powermax < Powertest
+%                     collided = true;
+%                 else
+%                     rn = rnOld;
+%                     connectivity = connectivityOld;
+%                     links = linksOld;
+%                     linksinconnect = linksinconnectOld;
+%                     fseg = fsegOld;
+%                     collided = false;
+%                 end
 
             end
 

@@ -1,6 +1,7 @@
-function [rn, links, connectivity, linksinconnect, fseg, separated] = separation(doseparation, rn, ...
+function [rn, links, connectivity, linksinconnect, fseg, separated, PowermaxSeparation] = separation(doseparation, rn, ...
         links, connectivity, linksinconnect, fseg, mobility, rotMatrix, MU, NU, a, Ec, mindist, ...
-        vertices, uhat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_flag, Bcoeff)
+        vertices, uhat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_flag, Bcoeff, collidedNode)
+    PowermaxSeparation = 0;
     separated = false;
     if ~doseparation
         return
@@ -35,6 +36,9 @@ function [rn, links, connectivity, linksinconnect, fseg, separated] = separation
             end
 
             Powermax = 1.05 * rn(i, 4:6) * ft';
+            if i == collidedNode
+                PowermaxSeparation = Powermax;
+            end
             %initialize the splitting mode that will be undertaken
             splittingmode = 0;
 
@@ -147,6 +151,9 @@ function [rn, links, connectivity, linksinconnect, fseg, separated] = separation
                         splittingvel = vntmp;
                         splittingfseg = [fseg(linkid1, :); fseg(linkid2, :)];
                         splittingfind = [linkid1, linkid2];
+                        if i == collidedNode
+                            PowermaxSeparation = Powermax;
+                        end
                     end
 
                 end
