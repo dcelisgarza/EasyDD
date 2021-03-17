@@ -100,16 +100,17 @@ plotFEMDomain(Stop, Sbot, Sright, Sleft, Sfront, Sback, Smixed, xnodes)
 u_tilda_0 = calculateUtilda(rn, links, gamma_disp, NU, xnodes, dx, ...
     dy, dz, mx, my, mz, u_tilda_0);
 close all
-save(sprintf('../output/initial_%s_%d', simName, curstep), 'K','kg','L','U','P_l','P_u');
+save(sprintf('../output/initial_%s_%d', simName, curstep), 'K', 'kg', 'L', 'U', 'P_l', 'P_u');
 
 fprintf('Initialisation complete.\n');
 %%
 while simTime < totalSimTime
+
     if ~any(rn(:, 4) == 0)
         fprintf('No more real segments, ending simulation.\n')
         return;
     end
-    
+
     if mod(curstep, saveFreq) == 0
         close all
         save(sprintf('../output/%s_%d', simName, curstep), '-regexp', '^(?!(K|kg|L|U|P_l|P_u)$).');
@@ -150,7 +151,7 @@ while simTime < totalSimTime
         mobility, rotMatrix, doremesh, dovirtmesh, vertices, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, ...
         TriangleCentroids, TriangleNormals, CUDA_flag, Bcoeff, noExitNorm, noExitPoint);
 
-   [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collideAndSeparateNodesAndSegments(docollision, doseparation, ...
+    [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collideAndSeparateNodesAndSegments(docollision, doseparation, ...
         rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew, rann, MU, NU, a, Ec, mobility, vertices, rotMatrix, ...
         u_hat, nc, xnodes, D, mx, my, mz, w, h, d, lmin, CUDA_flag, Bcoeff, curstep);
 
@@ -158,7 +159,7 @@ while simTime < totalSimTime
 
     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew, ~] = separation(doseparation, rnnew, ...
         linksnew, connectivitynew, linksinconnectnew, fsegnew, mobility, rotMatrix, MU, NU, a, Ec, ...
-        2 * rann, vertices, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_flag, Bcoeff);
+        2 * rann, vertices, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_flag, Bcoeff, 0);
 
     [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = remesh_all(rnnew, linksnew, ...
         connectivitynew, linksinconnectnew, fsegnew, lmin, lmax, areamin, areamax, MU, NU, a, Ec, ...
