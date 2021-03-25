@@ -49,15 +49,17 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = ...
         end
 
     end
+
     %%
-    % This needs to be changed to make it general.
-    %Halt dislocations attempting to exit the fixed end (assuming fixed end is the y/z plane at x=0)
+    % Halt dislocations attempting to exit the fixed end (assuming fixed end is the y/z plane at x=0)
     lenNoExit = size(noExitNorm, 1);
+
     for n = 1:L1
         % noExitNorm = [-1 0 0]
         % noExitPoint = [0 0 0]
         %
         for i = 1:lenNoExit
+
             if rnnew(n, end) == 65
                 t = rnnew(n, 1:3) - noExitPoint(i, :);
                 D = dot(noExitNorm(i, :), t);
@@ -65,30 +67,15 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = ...
                 % outside.
                 if D > 0
                     rnnew(n, 1:3) = rnnew(n, 1:3) - D * noExitNorm(i, :);
-                    rnnew(n, end) = 7;%7;%61;
+                    rnnew(n, end) = 7; %7; %61;
                 end
+
             end
+
         end
-        
-%         if rnnew(n, end) == 65 && rnnew(n, 1) <= 0
-%             vec = [0, 0, 0];
-%             connumb = connectivitynew(n, 1);
-% 
-%             for m = 1:connumb
-%                 vec = vec + rnnew(linksnew(connectivitynew(n, 2 * m), 3 - connectivitynew(n, 2 * m + 1)), 1:3) - rnnew(n, 1:3);
-%             end
-% 
-%             vec = rnnew(n, 1) .* (vec / vec(1, 1));
-%             rnnew(n, 1:3) = rnnew(n, 1:3) - vec;
-%             rnnew(n, end) = 7;
-% 
-%             if any(isnan(rnnew(n, 1:3)))
-%                 fprintf('Error fixing node to back end. See remesh_surf line 62')
-%                 pause;
-%             end
-% 
-%         end
+
     end
+
     %%
     %Create surface nodes for newly exited nodes
     for n = 1:L1
@@ -184,7 +171,7 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = ...
     %accordingly
     L1 = size(rnnew, 1);
 
-    for i = 1:L1%length(rnnew)  ET updated- check!
+    for i = 1:L1 %length(rnnew)  ET updated- check!
 
         if ~(rnnew(i, end) == 6 || rnnew(i, end) == 61)
             continue;
@@ -194,12 +181,12 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = ...
 
         for j = 1:connectivitynew(i, 1)
             %estimate surface centroid nearest to point
-            if length(Index) < i || Index(i) == 0 || isnan(Index(i))%update
+            if length(Index) < i || Index(i) == 0 || isnan(Index(i)) %update
                 [~, index] = min((P(:, 1) - rnnew(i, 1)).^2 + (P(:, 2) - rnnew(i, 2)).^2 + (P(:, 3) - rnnew(i, 3)).^2);
                 Index(i) = index;
             end
 
-            if rnnew(linksnew(connectivitynew(i, 2 * j), (3 - connectivitynew(i, 2 * j + 1))), end) == 0 || rnnew(linksnew(connectivitynew(i, 2 * j), (3 - connectivitynew(i, 2 * j + 1))), end) == 7%if the surface node is not connected to a virtual node : break M
+            if rnnew(linksnew(connectivitynew(i, 2 * j), (3 - connectivitynew(i, 2 * j + 1))), end) == 0 || rnnew(linksnew(connectivitynew(i, 2 * j), (3 - connectivitynew(i, 2 * j + 1))), end) == 7 %if the surface node is not connected to a virtual node : break M
                 break;
                 %         elseif dot(fn(Index(i),:),rnnew(linksnew(connectivitynew(i,2*j),(3-connectivitynew(i,2*j+1))),1:3)-rnnew(i,1:3))<0
                 %             [rnnew,linksnew,connectivitynew,linksinconnectnew] = gensurfnode2(Index,fn,P,rnnew,linksnew,connectivitynew,linksinconnectnew,i,linksnew(connectivitynew(i,2*j),(3-connectivitynew(i,2*j+1))),j,j,vertices);
@@ -210,7 +197,7 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = ...
 
         end
 
-        if test == connectivitynew(i, 1)%all linked nodes are virtual (67 flag)
+        if test == connectivitynew(i, 1) %all linked nodes are virtual (67 flag)
             %extend far away
             rnnew = extend(rnnew, linksnew, i, index, fn);
         end
@@ -256,7 +243,7 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = ...
         i = i + 1;
     end
 
-    for i = 1:size(rnnew, 1)%create surface nodes where necessary
+    for i = 1:size(rnnew, 1) %create surface nodes where necessary
 
         if rnnew(i, end) == 67
 
@@ -304,7 +291,7 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = gensur
     if ~isempty(surfpts)
         [rn_size1, rn_size2] = size(rnnew);
 
-        if rn_size2 == 4%Pre-force evaluation, rn nx3, [rn flag]
+        if rn_size2 == 4 %Pre-force evaluation, rn nx3, [rn flag]
             %splitnode accepts only nx6, so add dummy velocities and then
             %delete them. Avoids re-writing splitnode.
             dummy_vel = zeros(rn_size1, 3);
@@ -353,8 +340,8 @@ function [rnnew] = movetosurf(rnnew, ~, i, vertices)
 
     if norm(vec) < eps
         vec = [eps, eps, eps];
-%         fprintf('Error moving exited node back to surface. See movetosurf in remesh_surf')
-%         pause
+        %         fprintf('Error moving exited node back to surface. See movetosurf in remesh_surf')
+        %         pause
     end
 
     vec = vec / norm(vec);
