@@ -28,7 +28,6 @@ function [rnnew, linksnew, connectivitynew, linksinconnectnew, fsegnew] = collid
                     2 * rann, vertices, u_hat, nc, xnodes, D, mx, my, mz, w, h, d, CUDA_flag, Bcoeff, mergednodeid);
 
                 if powerSeparation - powerPreCollision > eps
-
                     if floop == 1
                         fprintf("Step %d. Unconnected links found. Links %d and %d are colliding.\n", curstep, s1, s2)
                     elseif floop == 2
