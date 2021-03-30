@@ -169,7 +169,7 @@ if ~exist('dovirtmesh', 'var')
 end
 
 if ~exist('dt0', 'var')
-    dt0 = 1e6;
+    dt0 = 1e8;
     fprintf('Providing default value for dt0 = %f.\n', dt0)
 end
 
@@ -184,7 +184,7 @@ if ~exist('holdingTime', 'var')
 end
 
 if ~exist('totalSimTime', 'var')
-    totalSimTime = 1e9 + holdingTime;
+    totalSimTime = 1e11 + holdingTime;
     fprintf('Providing default value for totalSimTime = %f.\n', totalSimTime)
 end
 
@@ -235,7 +235,7 @@ if ~exist('plotFreq', 'var')
 end
 
 if ~exist('plotFlags', 'var')
-    plotFlags = struct('nodes', true, 'secondary', false);
+    plotFlags = struct('nodes', true, 'secondary', true);
     fprintf('Providing default value for plotFlags.nodes = %d.\n', plotFlags.nodes)
     fprintf('Providing default value for plotFlags.secondary = %d.\n', plotFlags.secondary)
 end
@@ -292,7 +292,7 @@ if ~exist('sign_f_dot', 'var')
 end
 
 if ~exist('u_dot', 'var')
-    u_dot = dx / 160E6;
+    u_dot = dx / 160E8;
     fprintf('Providing default value for u_dot = %f.\n', u_dot)
 end
 
@@ -307,7 +307,7 @@ if ~exist('u_bar_0', 'var')
 end
 
 if ~exist('f_dot', 'var')
-    f_dot = dx / 160E6;
+    f_dot = 0;
     fprintf('Providing default value for f_dot = %d.\n', f_dot)
 end
 

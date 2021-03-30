@@ -89,7 +89,7 @@ run fccLoops
 prismbVec(:, :) = prismbVec(:, :) / max(abs(prismbVec(1, :)));
 % prismbVec(:, :) = prismbVec(:, :) * norm(prismbVec(1, :));
 yieldStressExp = 158; %units units of mumag
-yieldStressExp = 83; %units units of mumag
+yieldStressExp = 101; %units units of mumag
 segLen = 2*mumag*norm(prismbVec(1, 1:3))/yieldStressExp;
 % segLen = 0.2 / amag;
 % lmin = 0.1 / amag;
