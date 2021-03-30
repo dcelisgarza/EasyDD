@@ -155,9 +155,14 @@ function [K, L, U, P_l, P_u, Sleft, Sright, Stop, Sbot, Sfront, Sback, Smixed, g
     gammaMixed = Smixed; % t1=t2=0, u3= U
 
     fixedDofs = [3 * gammau(:, 1) - 2; 3 * gammau(:, 1) - 1; 3 * gammau(:, 1); 3 * gammaMixed(:, 1)];
-    freeDofs = setdiff([1:3*mno], fixedDofs);
-%     freeDofs = [3 * gammat(:, 1) - 2; 3 * gammat(:, 1) - 1; 3 * gammat(:, 1); 3 * gammaMixed(:, 1) - 2; ...
-%                 3 * gammaMixed(:, 1) - 1];
+    %     freeDofs = setdiff([1:3*mno], fixedDofs);
+    freeDofs = [3 * gammat(:, 1) - 2; 3 * gammat(:, 1) - 1; 3 * gammat(:, 1); 3 * gammaMixed(:, 1) - 2; ...
+                3 * gammaMixed(:, 1) - 1];
+
+    if length([fixedDofs; freeDofs]) > length(unique([fixedDofs; freeDofs]))
+        disp('error')
+        pause
+    end
 
 %     K(:, fixedDofs) = 0;
 %     K(fixedDofs, :) = 0;
