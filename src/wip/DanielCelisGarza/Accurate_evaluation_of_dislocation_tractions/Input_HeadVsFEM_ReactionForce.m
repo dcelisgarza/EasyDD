@@ -15,7 +15,7 @@ NU = 0.28;
 a = 5;
 
 % No rotation matrix.
-% bVec = [1 1 1];
+% bVec = 1/2*[1 1 1];
 % nVec = [1 -1 0];
 
 % With rotation matrix.
